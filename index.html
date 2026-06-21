@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)file:///C:/Users/kevin/Downloads/stagecraft_lesson_planner_5.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stagecraft — Lesson Planning for ESL Teachers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./Stagecraft — Lesson Planning for ESL Teachers_files/css2" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c2230;
+    --ink-soft:#3d4456;
+    --paper:#f7f4ec;
+    --paper-raised:#ffffff;
+    --rule:#dcd6c4;
+    --accent:#c1781e;
+    --accent-soft:#f0dfc2;
+    --accent-deep:#9c5c12;
+    --green-check:#3f6b4c;
+    --shadow: 0 1px 2px rgba(28,34,48,.06), 0 8px 24px rgba(28,34,48,.06);
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(var(--rule) 1px, transparent 1px);
+    background-size: 100% 42px;
+    opacity:.35;
+    pointer-events:none;
+    z-index:0;
+  }
+  .app{
+    position:relative; z-index:1;
+    max-width:1180px;
+    margin:0 auto;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* Header */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:28px 32px 20px;
+    border-bottom:1px solid var(--rule);
+  }
+  .brand{display:flex; align-items:baseline; gap:12px;}
+  .brand-mark{
+    font-family:'Source Serif 4', serif;
+    font-weight:700;
+    font-size:26px;
+    letter-spacing:-.01em;
+  }
+  .brand-mark span{ color:var(--accent); }
+  .brand-tag{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    font-weight:500;
+  }
+  .header-actions{display:flex; gap:10px;}
+  .btn-ghost{
+    background:none;
+    border:1px solid var(--rule);
+    color:var(--ink-soft);
+    padding:8px 14px;
+    border-radius:7px;
+    font-size:13px;
+    font-weight:500;
+    cursor:pointer;
+    font-family:inherit;
+    transition:.15s;
+  }
+  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent-deep); }
+
+  /* Layout: rail + main */
+  .layout{
+    flex:1;
+    display:grid;
+    grid-template-columns:240px 1fr;
+    gap:0;
+    min-height:0;
+  }
+  @media (max-width:860px){
+    .layout{ grid-template-columns:1fr; }
+    .rail{ display:none; }
+  }
+
+  /* Session rail */
+  .rail{
+    border-right:1px solid var(--rule);
+    padding:28px 22px;
+  }
+  .rail-label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--ink-soft);
+    font-weight:600;
+    margin-bottom:18px;
+  }
+  .stage-list{ list-style:none; margin:0; padding:0; }
+  .stage-list li{
+    position:relative;
+    padding:0 0 22px 26px;
+    font-size:13.5px;
+    color:var(--ink-soft);
+    border-left:2px solid var(--rule);
+    margin-left:5px;
+  }
+  .stage-list li:last-child{ border-left:2px solid transparent; padding-bottom:0; }
+  .stage-list li::before{
+    content:"";
+    position:absolute;
+    left:-7px; top:0;
+    width:12px; height:12px;
+    border-radius:50%;
+    background:var(--paper);
+    border:2px solid var(--rule);
+  }
+  .stage-list li.done{ color:var(--ink); font-weight:500; }
+  .stage-list li.done::before{ background:var(--green-check); border-color:var(--green-check); }
+  .stage-list li.active{ color:var(--accent-deep); font-weight:600; }
+  .stage-list li.active::before{ background:var(--accent); border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
+
+  .rail-note{
+    margin-top:28px;
+    padding-top:20px;
+    border-top:1px solid var(--rule);
+    font-size:12px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+
+  /* Main column */
+  .main{
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+    padding:0;
+  }
+
+  .thread{
+    flex:1;
+    overflow-y:auto;
+    padding:32px 40px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  @media (max-width:600px){ .thread{ padding:20px 18px 12px; } }
+
+  .msg{ display:flex; gap:12px; max-width:760px; }
+  .msg.user{ align-self:flex-end; flex-direction:row-reverse; }
+  .avatar{
+    width:30px; height:30px; border-radius:50%;
+    flex:none;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Source Serif 4',serif; font-weight:700; font-size:13px;
+    margin-top:2px;
+  }
+  .avatar.mentor{ background:var(--ink); color:var(--paper); }
+  .avatar.user{ background:var(--accent-soft); color:var(--accent-deep); }
+  .bubble{
+    background:var(--paper-raised);
+    border:1px solid var(--rule);
+    padding:14px 16px;
+    border-radius:var(--radius);
+    font-size:15px;
+    line-height:1.6;
+    box-shadow:var(--shadow);
+  }
+  .msg.user .bubble{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .bubble p{ margin:0 0 10px; }
+  .bubble p:last-child{ margin-bottom:0; }
+
+  /* Comment vs. question split */
+  .mentor-comment{
+    font-size:14px;
+    color:var(--ink-soft);
+    line-height:1.6;
+    margin-bottom:8px;
+  }
+  .mentor-comment:empty{ display:none; }
+  .mentor-comment p{ margin:0 0 6px; }
+  .mentor-comment p:last-child{ margin-bottom:0; }
+  .question-box{
+    background:var(--accent-soft);
+    border:1.5px solid var(--accent);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    font-size:15.5px;
+    font-weight:600;
+    color:var(--ink);
+    line-height:1.5;
+  }
+  .question-box p{ margin:0; }
+
+  .typing{ display:flex; gap:4px; padding:4px 2px; }
+  .typing span{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--ink-soft);
+    opacity:.4;
+    animation:blink 1.2s infinite ease-in-out;
+  }
+  .typing span:nth-child(2){ animation-delay:.2s; }
+  .typing span:nth-child(3){ animation-delay:.4s; }
+  @keyframes blink{ 0%,80%,100%{opacity:.25; transform:translateY(0);} 40%{opacity:1; transform:translateY(-2px);} }
+
+  /* Composer */
+  .composer{
+    border-top:1px solid var(--rule);
+    padding:16px 40px 24px;
+    background:var(--paper);
+  }
+  @media (max-width:600px){ .composer{ padding:14px 18px 20px; } }
+  .composer-inner{
+    display:flex;
+    gap:10px;
+    align-items:flex-end;
+    background:var(--paper-raised);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    padding:8px 8px 8px 16px;
+    box-shadow:var(--shadow);
+  }
+  .composer-inner textarea{
+    flex:1;
+    border:none;
+    outline:none;
+    resize:none;
+    background:transparent;
+    font-family:inherit;
+    font-size:15px;
+    line-height:1.5;
+    color:var(--ink);
+    max-height:140px;
+    padding:8px 0;
+  }
+  .composer-inner textarea::placeholder{ color:#a8a190; }
+  .send-btn{
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    width:38px; height:38px;
+    border-radius:9px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    flex:none;
+    transition:.15s;
+  }
+  .send-btn:hover:not(:disabled){ background:var(--accent-deep); }
+  .send-btn:disabled{ opacity:.35; cursor:not-allowed; }
+
+  .composer-hint{
+    margin-top:9px;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    text-align:center;
+  }
+
+  /* Attach (+) button and menu */
+  .composer-wrap{ position:relative; }
+  .attach-btn{
+    background:none;
+    color:var(--ink-soft);
+    border:1.5px solid var(--rule);
+    width:36px; height:36px;
+    border-radius:9px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    flex:none;
+    transition:.15s;
+    margin-bottom:1px;
+  }
+  .attach-btn:hover{ border-color:var(--accent); color:var(--accent-deep); background:var(--accent-soft); }
+  .attach-menu{
+    position:absolute;
+    bottom:calc(100% + 8px);
+    left:0;
+    background:var(--paper-raised);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:6px;
+    display:none;
+    flex-direction:column;
+    min-width:190px;
+    z-index:20;
+  }
+  .attach-menu.open{ display:flex; }
+  .attach-menu button{
+    display:flex; align-items:center; gap:10px;
+    font-family:inherit; font-size:13.5px; color:var(--ink);
+    background:none; border:none; text-align:left;
+    padding:9px 10px; border-radius:7px; cursor:pointer;
+  }
+  .attach-menu button:hover{ background:var(--accent-soft); color:var(--accent-deep); }
+  .attach-menu svg{ flex:none; opacity:.7; }
+
+  /* Pending image preview, shown above the composer before sending */
+  .image-preview-row{
+    display:none;
+    gap:8px;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+  }
+  .image-preview-row.has-image{ display:flex; }
+  .image-preview-chip{
+    position:relative;
+    width:64px; height:64px;
+    border-radius:8px;
+    overflow:hidden;
+    border:1.5px solid var(--rule);
+    flex:none;
+  }
+  .image-preview-chip img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .image-preview-chip .remove-image{
+    position:absolute; top:2px; right:2px;
+    width:18px; height:18px;
+    background:rgba(28,34,48,.75);
+    color:#fff;
+    border:none; border-radius:50%;
+    font-size:12px; line-height:1;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .image-preview-chip .remove-image:hover{ background:var(--ink); }
+
+  /* Image bubble in the message thread */
+  .msg-image{
+    max-width:240px;
+    border-radius:10px;
+    border:1px solid var(--rule);
+    display:block;
+    margin-top:8px;
+  }
+  .msg.user .msg-image{ margin-left:auto; }
+
+  /* Plan document styling (rendered inside a mentor bubble when final plan arrives) */
+  .plan-doc{
+    background:var(--paper-raised);
+    border:1px solid var(--rule);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:0;
+    overflow:hidden;
+    max-width:760px;
+  }
+  .plan-doc-header{
+    background:var(--ink);
+    color:var(--paper);
+    padding:18px 24px;
+  }
+  .plan-doc-header .eyebrow{
+    font-size:11px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--accent-soft); font-weight:600; margin-bottom:6px;
+  }
+  .plan-doc-header h2{
+    font-family:'Source Serif 4',serif;
+    font-size:21px; font-weight:700; margin:0;
+    line-height:1.3;
+  }
+  .plan-body{ padding:22px 26px 26px; }
+  .plan-body h3{
+    font-family:'Source Serif 4',serif;
+    font-size:15.5px;
+    font-weight:700;
+    color:var(--accent-deep);
+    margin:24px 0 8px;
+    padding-bottom:6px;
+    border-bottom:1px solid var(--rule);
+  }
+  .plan-body h3:first-child{ margin-top:0; }
+  .plan-body h4{
+    font-size:13px; font-weight:600; color:var(--ink-soft);
+    margin:14px 0 4px; text-transform:uppercase; letter-spacing:.03em;
+  }
+  .plan-body p{ font-size:14.5px; line-height:1.65; margin:0 0 10px; }
+  .plan-body ul, .plan-body ol{ margin:0 0 10px; padding-left:20px; font-size:14.5px; line-height:1.65; }
+  .plan-body li{ margin-bottom:4px; }
+  .plan-body strong{ color:var(--ink); }
+  .plan-body code{
+    font-family:'JetBrains Mono',monospace;
+    background:var(--accent-soft);
+    padding:1px 5px;
+    border-radius:4px;
+    font-size:13px;
+  }
+  .stage-row{
+    display:flex;
+    gap:14px;
+    padding:12px 0;
+    border-top:1px dashed var(--rule);
+  }
+  .stage-row:first-of-type{ border-top:none; }
+  .stage-time{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--accent-deep);
+    background:var(--accent-soft);
+    border-radius:6px;
+    padding:3px 7px;
+    height:fit-content;
+    white-space:nowrap;
+    flex:none;
+  }
+  .stage-content strong{ display:block; margin-bottom:2px; }
+
+  .plan-actions{
+    display:flex; gap:8px; padding:16px 26px;
+    border-top:1px solid var(--rule);
+    background:#fbf9f3;
+  }
+  .plan-actions button{
+    font-family:inherit; font-size:13px; font-weight:500;
+    padding:8px 14px; border-radius:7px; cursor:pointer;
+    border:1px solid var(--rule); background:var(--paper-raised); color:var(--ink-soft);
+  }
+  .plan-actions button:hover{ border-color:var(--accent); color:var(--accent-deep); }
+  .plan-actions button.primary{
+    background:var(--ink); color:var(--paper); border-color:var(--ink);
+  }
+  .plan-actions button.primary:hover{ background:var(--accent-deep); border-color:var(--accent-deep); }
+
+  /* Chip-choice prompts */
+  .choice-row{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin-top:10px;
+    max-width:760px;
+  }
+  .choice-chip{
+    font-family:inherit; font-size:13.5px; font-weight:500;
+    border:1.5px solid var(--rule); background:var(--paper-raised); color:var(--ink);
+    padding:9px 16px; border-radius:20px; cursor:pointer;
+    transition:.13s;
+  }
+  .choice-chip:hover{ border-color:var(--accent); color:var(--accent-deep); background:var(--accent-soft); }
+  .choice-chip.recommended{
+    border-color:var(--accent); background:var(--accent-soft); color:var(--accent-deep);
+  }
+  .choice-chip.recommended::after{
+    content:" ★ suggested";
+    font-size:10.5px; font-weight:600; opacity:.8;
+  }
+  .choice-chip:disabled{ opacity:.4; cursor:default; }
+  .choice-row.answered .choice-chip:not(.picked){ opacity:.35; }
+  .choice-row.answered .choice-chip.picked{ border-color:var(--ink); background:var(--ink); color:var(--paper); }
+
+  /* Multi-select variant */
+  .choice-chip.selected{
+    border-color:var(--ink); background:var(--ink); color:var(--paper);
+  }
+  .choice-chip.all-chip{
+    border-style:dashed;
+    font-weight:600;
+  }
+  .choice-confirm-row{
+    display:flex; align-items:center; gap:10px;
+    margin-top:10px;
+  }
+  .choice-confirm-row .hint{ font-size:12px; color:var(--ink-soft); }
+  .btn-confirm{
+    font-family:inherit; font-size:13px; font-weight:600;
+    background:var(--accent); color:#fff; border:none;
+    padding:8px 16px; border-radius:18px; cursor:pointer;
+  }
+  .btn-confirm:hover{ background:var(--accent-deep); }
+  .btn-confirm:disabled{ opacity:.4; cursor:not-allowed; }
+
+  /* Free-text fallback link under chip rows */
+  .choice-freetext-link{
+    display:block; margin-top:8px;
+    font-size:12.5px; color:var(--ink-soft);
+    text-decoration:underline; cursor:pointer;
+    background:none; border:none; font-family:inherit; padding:0;
+  }
+
+  /* Dual chip-group question (e.g. Skills + Language Area shown together) */
+  .dual-choice-block{
+    max-width:760px;
+    margin-top:10px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .dual-choice-group-label{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+
+  /* Sentence builder (fill-in-the-blank with inline dropdowns) */
+  .sentence-builder{
+    max-width:760px;
+    margin-top:10px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .sentence-row{
+    background:var(--paper-raised);
+    border:1.5px solid var(--rule);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    font-size:15px;
+    line-height:2.1;
+    color:var(--ink);
+  }
+  .sentence-row.complete{
+    border-color:var(--green-check);
+  }
+  .blank-select{
+    font-family:inherit;
+    font-size:14px;
+    font-weight:600;
+    color:var(--accent-deep);
+    background:var(--accent-soft);
+    border:1.5px solid var(--accent);
+    border-radius:6px;
+    padding:3px 8px;
+    margin:0 2px;
+    cursor:pointer;
+    max-width:220px;
+  }
+  .blank-select:invalid{ color:var(--ink-soft); font-weight:500; }
+  .conditional-slot:empty{ display:none; }
+  .blank-select.conditional-select{
+    background:var(--ink); color:var(--paper); border-color:var(--ink);
+  }
+  .blank-select.conditional-select:invalid{ color:var(--paper); opacity:.75; }
+  .sentence-builder-actions{
+    display:flex; align-items:center; gap:10px;
+    flex-wrap:wrap;
+  }
+  .btn-add-sentence{
+    font-family:inherit; font-size:13px; font-weight:500;
+    background:none; color:var(--accent-deep);
+    border:1.5px dashed var(--accent); border-radius:18px;
+    padding:7px 14px; cursor:pointer;
+  }
+  .btn-add-sentence:hover{ background:var(--accent-soft); }
+  .sentence-builder.answered .blank-select,
+  .sentence-builder.answered .btn-add-sentence,
+  .sentence-builder.answered .btn-confirm{ opacity:.45; pointer-events:none; }
+  .choice-freetext-link:hover{ color:var(--accent-deep); }
+
+  /* Dropdown + free-text question type */
+  .dropdown-block{
+    margin-top:10px;
+    max-width:760px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .dropdown-row{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .dropdown-select{
+    font-family:inherit;
+    font-size:14px;
+    color:var(--ink);
+    background:var(--paper-raised);
+    border:1.5px solid var(--rule);
+    border-radius:8px;
+    padding:9px 12px;
+    cursor:pointer;
+    min-width:220px;
+    max-width:100%;
+  }
+  .dropdown-select:hover{ border-color:var(--accent); }
+  .dropdown-select:focus{ outline:none; border-color:var(--accent); }
+
+  /* Tap-to-add chips for multi-select dropdowns (e.g. Mother Tongue) */
+  .dropdown-added-row{
+    display:flex; flex-wrap:wrap; gap:6px;
+    min-height:0;
+  }
+  .added-chip{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--ink); color:var(--paper);
+    font-size:13px; font-weight:500;
+    padding:6px 8px 6px 12px;
+    border-radius:16px;
+  }
+  .added-chip button{
+    background:none; border:none; color:var(--paper);
+    opacity:.7; cursor:pointer; font-size:14px; line-height:1;
+    padding:2px; display:flex;
+  }
+  .added-chip button:hover{ opacity:1; }
+  .btn-add-item{
+    font-family:inherit; font-size:13px; font-weight:600;
+    background:var(--accent-soft); color:var(--accent-deep);
+    border:1.5px solid var(--accent); border-radius:8px;
+    padding:8px 14px; cursor:pointer;
+  }
+  .btn-add-item:hover{ background:var(--accent); color:#fff; }
+  .btn-add-item:disabled{ opacity:.4; cursor:not-allowed; background:var(--accent-soft); color:var(--accent-deep); }
+  .dropdown-go{
+    font-family:inherit; font-size:13px; font-weight:600;
+    background:var(--accent); color:#fff; border:none;
+    padding:9px 16px; border-radius:8px; cursor:pointer;
+  }
+  .dropdown-go:hover{ background:var(--accent-deep); }
+  .dropdown-go:disabled{ opacity:.4; cursor:not-allowed; }
+  .dropdown-or{
+    font-size:12.5px; color:var(--ink-soft);
+    margin:0 2px;
+  }
+  .dropdown-block.answered .dropdown-select,
+  .dropdown-block.answered .dropdown-go{ opacity:.4; pointer-events:none; }
+
+  /* Welcome state */
+  .welcome{
+    max-width:560px;
+    margin:40px auto;
+    text-align:center;
+  }
+  .welcome-mark{
+    width:54px; height:54px;
+    border-radius:14px;
+    background:var(--ink);
+    color:var(--accent-soft);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 18px;
+    font-family:'Source Serif 4',serif; font-weight:700; font-size:22px;
+  }
+  .welcome h1{
+    font-family:'Source Serif 4',serif;
+    font-size:26px; margin:0 0 10px;
+    line-height:1.3;
+  }
+  .welcome p{
+    color:var(--ink-soft); font-size:14.5px; line-height:1.6; margin:0 0 22px;
+  }
+  .starter-row{
+    display:flex; flex-wrap:wrap; gap:8px; justify-content:center;
+  }
+  .starter-chip{
+    font-family:inherit; font-size:13px;
+    border:1px solid var(--rule); background:var(--paper-raised);
+    padding:8px 14px; border-radius:20px; cursor:pointer; color:var(--ink-soft);
+  }
+  .starter-chip:hover{ border-color:var(--accent); color:var(--accent-deep); }
+
+  ::-webkit-scrollbar{ width:9px; }
+  ::-webkit-scrollbar-thumb{ background:var(--rule); border-radius:6px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="brand-mark">Stage<span>craft</span></div>
+      <div class="brand-tag">Lesson Planning, CELTA-Style</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-ghost" id="newSessionBtn">New lesson</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="rail">
+      <div class="rail-label">Session</div>
+      <ul class="stage-list" id="railList">
+        <li data-stage="topic" class="active">Class type &amp; focus</li>
+        <li data-stage="focus" class="done">Class type &amp; focus</li>
+        <li data-stage="profile">Class profile</li>
+        <li data-stage="timetable">Timetable fit</li>
+        <li data-stage="logistics">Length, materials &amp; template</li>
+        <li data-stage="draft">Drafting plan</li>
+        <li data-stage="done">Plan ready</li>
+      </ul>
+      <div class="rail-note">Stagecraft asks one question at a time, the way a TP tutor would — then builds a full PPP-staged plan with timing, aims, and anticipated problems.</div>
+    </aside>
+
+    <div class="main">
+      <div class="thread" id="thread">
+    <div class="welcome">
+      <div class="welcome-mark">S</div>
+      <h1>What kind of class is this?</h1>
+      <p>I'll ask everything step by step, the way a TP tutor would, then build out the full staged plan. Let's start with class type.</p>
+    </div>
+  <div class="msg mentor">
+    <div class="avatar mentor">S</div>
+    <div>
+      <div class="bubble"><div class="mentor-comment"><p>Let's start with the kind of class this is.</p></div></div>
+      <div class="choice-row" data-mode="single"><button class="choice-chip" data-choice="ESL">ESL</button><button class="choice-chip" data-choice="ESP">ESP</button><button class="choice-chip" data-choice="EAP">EAP</button><button class="choice-chip" data-choice="Exam Prep">Exam Prep</button></div>
+      
+      
+    </div>
+  </div></div>
+
+      <div class="composer">
+        <div class="image-preview-row" id="imagePreviewRow"></div>
+        <div class="composer-wrap">
+          <div class="attach-menu" id="attachMenu">
+            <button type="button" id="uploadFileBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              Upload a file
+            </button>
+            <button type="button" id="takePhotoBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+              Take a photo
+            </button>
+          </div>
+          <div class="composer-inner">
+            <button class="attach-btn" id="attachBtn" aria-label="Attach" type="button">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+            <input type="file" id="fileInput" accept="image/*" style="display:none">
+            <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none">
+            <textarea id="input" placeholder="Type your reply…" rows="1"></textarea>
+            <button class="send-btn" id="sendBtn" aria-label="Send">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+          </div>
+        </div>
+        <div class="composer-hint">Stagecraft drafts lesson plans; always review before teaching from one.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SYSTEM_PROMPT = `You are a CELTA/TKT-trained ESL lesson planning mentor. You interview a teacher conversationally, ONE question at a time, to gather what's needed for a properly staged PPP (or appropriate) lesson plan — then produce a complete, professional lesson plan in the exact format below.
+
+## Your interview style
+- Ask ONE question at a time. Never dump multiple questions in one message.
+- Be warm but efficient — like a TP tutor who respects the teacher's time, not a chatbot collecting form fields.
+- Build on what they've told you. Reference it back naturally.
+- If something they say implies a pedagogical issue (e.g. two students who are old friends → personalization/elicitation risk; multilevel pair → differentiation problem; evening class → fatigue/energy), proactively flag it yourself as a CELTA-trained mentor would — don't wait for the teacher to think of it. This is your main value-add over a generic form.
+- Infer what you reasonably can instead of asking. Only ask about things that materially change the plan.
+
+## Information you need before drafting (gather via conversation, not a checklist read aloud)
+1. Class type — use the CHOICE protocol with options ESL, ESP, EAP, Exam Prep. This goes first since it frames everything else — an ESP business lesson, an EAP academic-skills lesson, and an Exam Prep IELTS lesson all warrant different skills emphasis, vocabulary, and context downstream. Branch based on the answer:
+   - ESP → use the CHOICE protocol with the ESP Field list below
+   - EAP → use the CHOICE protocol with the EAP Focus list below
+   - Exam Prep → use the DROPDOWN protocol with the Exam list below
+   - ESL → no follow-up needed
+   For Exam Prep lessons specifically, the chosen exam's typical task types and marking criteria should inform the Skills focus, Template recommendation, and Procedure later (e.g. IELTS Speaking practice suggests Speaking-only skills focus and a Productive Skills template staged around examiner-style questions).
+2. Main Aim — use the DUALCHOICES protocol to ask this as ONE question showing two chip groups together: a Skills group (Listening, Speaking, Reading, Writing, All) and a Language Area group (Vocabulary, Grammar, Function, All). The teacher picks from either or both groups to describe the lesson's primary aim — e.g. picking "Grammar" alone means the main aim is grammar-focused; picking "Speaking" + "Function" means the main aim is a speaking lesson built around a function. If class type was Exam Prep, you can note which skill(s) that exam component typically targets in your commentary, but still let the teacher choose freely.
+3. Subsidiary Aim — use the DUALCHOICES protocol again, same two groups (Skills, Language Area), asked as a separate question: "What's the subsidiary aim?" This is the secondary skill/area practiced through the main aim (e.g. main aim Grammar, subsidiary aim Speaking fluency practice). The teacher can also pick "None" if there genuinely isn't one for this lesson.
+4. Topic / target language — now ask for the actual topic or target language item that fits the main aim just established.
+   - If Grammar was picked (in either aim), use the DROPDOWN protocol with the Grammar list below, AND immediately follow up with the GRAMMARSCOPE protocol once they pick a grammar point — never skip this, since a grammar point alone is too broad to teach in one lesson.
+   - If Vocabulary was picked, use the DROPDOWN protocol with the Vocabulary list below, AND immediately follow up with the VOCABSCOPE protocol once they pick a topic — never skip this, same reasoning as grammar.
+   - If Function was picked, use the DROPDOWN protocol with the Function list below, AND immediately follow up with the FUNCTIONSCOPE protocol once they pick a function.
+   - If only skills were picked (no Grammar/Vocabulary/Function in either aim), ask the topic in free text instead — there's no standard closed list for a pure skills lesson.
+   - If multiple of Grammar/Vocabulary/Function appear across the two aims, ask each in turn (dropdown + its scope follow-up) before moving to Context — grammar first, then vocabulary, then function, in that order.
+5. Context — ALWAYS ask this, regardless of which aims were picked (grammar, function, and skills-only lessons all happen in some real-world setting too, not just vocabulary lessons). Use the DROPDOWN protocol with the Context list below — it's the same list as the Vocabulary topics, since they describe the same kind of everyday setting. Skip asking only if the context is already obvious from what they said (e.g. they picked "Travel & Transport" as their vocabulary topic, so asking context again would be redundant — just confirm it inline instead of re-asking; or if class type was ESP/EAP and the field/academic context already implies it).
+6. Level — use the CHOICE protocol below (Literacy/Beginner/Elementary/Pre-Intermediate/Intermediate/Upper-Intermediate/Advanced/Mixed, or K-12 grade). If Mixed, briefly ask what range (e.g. "B1 to B2") in free text.
+7. Class profile — gather as several small questions, not one big dump:
+   - Number of students — use the CHOICE protocol in single-select mode: ["1 (private lesson)", "2-3", "4-6", "7-10", "11-15", "16-20", "20+"], with a free-text escape hatch for an exact number
+   - Age range — use the CHOICE protocol in single-select mode with bands (Pre-K (0-4), Young Learners (5-7), Children (8-12), Teens (13-17), Young Adult (18-25), Adult (26-40), Adult (41-60), 60+) AND a free-text escape hatch, since real classes are often a specific or unusual range
+   - Occupations/backgrounds — use the CHOICE protocol in MULTI-select mode (mode: "multi") with options: Working professionals, University students, Housewife/Househusband, Unemployed/Job-seeking, Retired, K-12 students, Mixed/Other, Other (specify), All. The teacher can tap several and hit Done.
+   - Time of class — use the CHOICE protocol in single-select mode: Early Morning, Morning, Midday, Afternoon, Evening, Late Evening/Night. This matters for energy/fatigue considerations in the plan.
+   - Mother tongue(s) — use the DROPDOWN protocol in MULTI-select mode (mode: "multi" inside the DROPDOWN tag) with the Mother Tongue list below, since a class often has mixed L1s.
+   - Relationship to each other / group dynamic, any other known dynamics — free text, and proactively flag pedagogical implications yourself (e.g. friends who know each other well → personalization/elicitation risk; shared L1 → risk of students reverting to L1 instead of English)
+8. Timetable fit — use the SENTENCEBUILDER protocol, asked as two separate questions (previous, then future), each built from the same fill-in-the-blank pattern: "They covered ___ in the context of ___" using the Timetable Topics list (same list as Vocabulary/Context) for both blanks. The teacher can add more than one sentence per question if multiple things were/will be covered (e.g. two recent lessons on different topics) — the interface gives them an "add another sentence" option, so just ask the question once and let the UI handle multiples.
+   - Previous lessons — "What did the class cover in the lesson(s) before this one?"
+   - Upcoming lessons — "What's coming up after this lesson?"
+9. Lesson length (default 45-60 min if not specified)
+10. Materials available/preferred — coursebook, realia, audio, none specified is fine, infer sensible materials
+11. Lesson template — once you know enough (topic, language area, skills, aims), RECOMMEND one template using the CHOICE protocol: Presentation Practice Production (PPP), Test Teach Test (TTT), Task-Based Learning (TBL), Receptive Skills, Productive Skills. Mark your recommendation. Brief logic: PPP for clear-cut new language items; TTT when students likely have partial existing knowledge worth diagnosing; TBL when the point is task completion with language emerging from need; Receptive Skills when the lesson centers on a listening/reading text; Productive Skills when it centers on a speaking/writing output task. The teacher can override your pick.
+
+Go through these step by step, one question at a time, in this exact order — this is the whole point of the interview, so don't bundle multiple questions into one message even if it would be faster, and don't jump ahead to topic before class type, skills, and language area are established. The only exception: if the teacher has already explicitly and unambiguously answered a later question earlier in the conversation, skip re-asking that specific one — but don't infer or assume answers to questions they haven't actually addressed. If the teacher says "just generate something" or similar, work with sensible defaults (ESL, Intermediate, PPP, mixed skills, working adults 26-40) and flag your assumptions in the plan.
+
+## Comment vs. Question formatting (applies to EVERY message you send during the interview)
+Your replies during the interview have two parts that must look visually different in the interface:
+1. Your reaction/comment on what the teacher just told you (acknowledgment, pedagogical observation, brief feedback) — this renders as plain text.
+2. The actual next question you're asking — this renders inside a highlighted box, so it's unmistakable what you need answered.
+
+Wrap ONLY the literal question sentence(s) in <Q>...</Q> tags. Everything else in your message (comments, observations, transitions) stays outside the tag. Example:
+
+Nice topic. Past Simple pairs well with this kind of storytelling context, and at B1 your students should already have the basic form down from earlier units.
+<Q>What level is this class?</Q>
+<CHOICES>{"mode": "single", "options": [...]}</CHOICES>
+
+Every message that asks a question — whether chip-driven, dropdown-driven, or free text — must wrap the question in <Q></Q>. If you have nothing to comment on (e.g. the very first question of the interview), it's fine to have an empty or very brief lead-in before the tag, or skip straight to <Q>.
+
+
+## CHOICE protocol
+For Skills, Language Area, Level, Class Type, ESP Field, EAP Focus, Age Range, Occupations, and Template, ask your question as normal conversational text, then on a new line emit a tag the interface will render as clickable chips. Default mode is single-select; set "mode": "multi" for Skills, Language Area, and Occupations. For any multi-select question, include an "All" option in the list — tapping it auto-selects everything and submits immediately, so the teacher doesn't have to tap every individual option to mean "all of them."
+
+MANDATORY: every single time you ask about one of these nine question types — Skills, Language Area, Level, Class Type, ESP Field, EAP Focus, Age Range, Occupations, Template — your reply MUST include the matching <CHOICES>...</CHOICES> tag, with no exceptions, even on a retry, even mid-conversation, even if you already asked a related question earlier. If your message asks "What level is this class?" or anything equivalent, it is incomplete and broken without the Level <CHOICES> tag immediately following it. Never send one of these questions as bare text alone.
+
+CRITICAL: the content inside <CHOICES>...</CHOICES> and <DROPDOWN>...</DROPDOWN> must be complete, syntactically valid JSON — every opening { and [ must have its matching closing } and ]. This is parsed programmatically and rendered as UI; malformed JSON breaks the interface and the teacher sees raw text instead of clickable options. Double-check brackets are balanced before closing the tag.
+
+Skills (multi-select):
+<CHOICES>{"mode": "multi", "options": ["Listening", "Speaking", "Reading", "Writing", "All", "None"]}</CHOICES>
+
+Language Area (multi-select):
+<CHOICES>{"mode": "multi", "options": ["Vocabulary", "Grammar", "Function", "All", "None"]}</CHOICES>
+
+Level:
+<CHOICES>{"mode": "single", "options": ["Literacy", "Beginner", "Elementary", "Pre-Intermediate", "Intermediate", "Upper-Intermediate", "Advanced", "Mixed", "K-12 grade (specify)"], "recommended": null, "freeTextTrigger": "K-12 grade (specify)", "freeTextPlaceholder": "Which grade? e.g. Grade 6"}</CHOICES>
+
+Class Type:
+<CHOICES>{"mode": "single", "options": ["ESL", "ESP", "EAP", "Exam Prep"], "recommended": null}</CHOICES>
+
+ESP Field (asked only if Class Type was ESP):
+<CHOICES>{"mode": "single", "options": ["Business English", "Medical English", "Legal English", "Aviation English", "IT & Technology", "Engineering", "Hospitality & Tourism", "Finance & Banking", "Maritime English", "Military English", "Academic Research", "Customer Service", "Other (specify)"], "recommended": null, "freeTextTrigger": "Other (specify)", "freeTextPlaceholder": "What field?"}</CHOICES>
+
+EAP Focus (asked only if Class Type was EAP):
+<CHOICES>{"mode": "single", "options": ["Essay Writing", "Lecture Comprehension", "Seminar Discussion", "Academic Reading", "Research & Citation Skills", "Presentation Skills", "Note-Taking", "Critical Thinking & Argumentation", "Exam/Dissertation Writing", "Other (specify)"], "recommended": null, "freeTextTrigger": "Other (specify)", "freeTextPlaceholder": "What academic focus?"}</CHOICES>
+
+Age Range:
+<CHOICES>{"mode": "single", "options": ["Pre-K (0-4)", "Young Learners (5-7)", "Children (8-12)", "Teens (13-17)", "Young Adult (18-25)", "Adult (26-40)", "Adult (41-60)", "60+", "Mixed ages"], "recommended": null, "freeTextPrompt": true, "freeTextLabel": "I'll type the exact ages", "freeTextPlaceholder": "e.g. 29-32"}</CHOICES>
+
+Number of Students:
+<CHOICES>{"mode": "single", "options": ["1 (private lesson)", "2-3", "4-6", "7-10", "11-15", "16-20", "20+"], "recommended": null, "freeTextPrompt": true, "freeTextLabel": "I'll type the exact number", "freeTextPlaceholder": "e.g. 14"}</CHOICES>
+
+Occupations (multi-select):
+<CHOICES>{"mode": "multi", "options": ["Working professionals", "University students", "Housewife/Househusband", "Unemployed/Job-seeking", "Retired", "K-12 students", "Mixed/Other", "Other (specify)", "All"]}</CHOICES>
+
+Time of Class:
+<CHOICES>{"mode": "single", "options": ["Early Morning", "Morning", "Midday", "Afternoon", "Evening", "Late Evening/Night"], "recommended": null}</CHOICES>
+
+Template recommendation:
+<CHOICES>{"mode": "single", "options": ["Presentation Practice Production (PPP)", "Test Teach Test (TTT)", "Task-Based Learning (TBL)", "Receptive Skills", "Productive Skills"], "recommended": "Presentation Practice Production (PPP)"}</CHOICES>
+
+Only use CHOICES for the question types listed above — never for group dynamics or anything else genuinely open-ended; those stay free text. When the teacher responds to a CHOICES prompt (including multi-select, which arrives as a comma-separated list), treat it as their answer and move on. Do not re-ask in chip form once answered.
+
+## DROPDOWN protocol (for Grammar, Vocabulary, Context, Exam, Mother Tongue, and Timetable Topic selection)
+The interface renders this as a native dropdown list PLUS the regular free-text input stays active beside it — the teacher can pick from the list or just type their own answer. Ask your question as normal conversational text, then on a new line emit:
+
+<DROPDOWN>{"options": ["...", "..."], "placeholder": "Choose a grammar point…"}</DROPDOWN>
+
+For Mother Tongue specifically, since a class often has mixed L1s, add "mode": "multi" so the teacher can select several:
+
+<DROPDOWN>{"mode": "multi", "options": ["...", "..."], "placeholder": "Select one or more languages…"}</DROPDOWN>
+
+Grammar list to use:
+["Present Simple", "Present Continuous", "Present Perfect", "Present Perfect Continuous", "Past Simple", "Past Continuous", "Past Perfect", "Past Perfect Continuous", "Future Simple (will)", "Future with going to", "Future Continuous", "Future Perfect", "First Conditional", "Second Conditional", "Third Conditional", "Zero Conditional", "Mixed Conditionals", "Modals of obligation (must/have to)", "Modals of possibility (might/could/may)", "Modals of ability (can/could)", "Modals of deduction", "Passive Voice", "Reported Speech", "Relative Clauses", "Comparatives & Superlatives", "Articles (a/an/the)", "Prepositions of time and place", "Question Forms", "Gerunds & Infinitives", "Used to / Would for past habits", "Quantifiers (some/any/much/many)", "Phrasal Verbs", "Other (specify)"]
+
+## GRAMMARSCOPE protocol (MANDATORY follow-up every time a grammar point is selected, anywhere — Topic question or the Timetable Fit conditional dropdown)
+A grammar point on its own is too broad to teach in one lesson — real teaching scopes it down (e.g. Past Simple lesson 1 might only cover "to be," not yet question forms or irregular verbs). Every time the teacher picks a grammar point, immediately follow up asking what scope/aspect of it this lesson covers, using the CHOICE protocol with a "Other (specify)" free-text escape. Use the scope set matching the grammar point picked:
+
+Present Simple / Past Simple / Present Continuous / Past Continuous / Future Simple (will) / Future with going to: ["Affirmative only", "Affirmative + Negative", "Affirmative + Negative + Question forms (full form)", "'To be' only", "Regular verbs only", "Irregular verbs only", "Other (specify)"]
+
+Present Perfect / Present Perfect Continuous / Past Perfect / Past Perfect Continuous / Future Continuous / Future Perfect: ["Affirmative only", "Affirmative + Negative", "Full form (affirmative, negative, question)", "Just + Already + Yet", "Ever/Never", "For/Since", "Other (specify)"]
+
+First Conditional / Second Conditional / Third Conditional / Zero Conditional / Mixed Conditionals: ["Form only (if-clause + main clause)", "Meaning/use only", "Form + meaning", "Spoken contractions (if I'd, I'd've)", "Other (specify)"]
+
+Modals of obligation (must/have to) / Modals of possibility (might/could/may) / Modals of ability (can/could) / Modals of deduction: ["One modal only (specify which)", "Two modals contrasted", "Full set for this category", "Affirmative only", "Other (specify)"]
+
+Passive Voice: ["Present Simple passive only", "Past Simple passive only", "Multiple tenses", "With 'by + agent'", "Without agent only", "Other (specify)"]
+
+Reported Speech: ["Statements only", "Questions only", "Commands/requests only", "Statements + Questions", "Other (specify)"]
+
+Relative Clauses: ["Defining only", "Non-defining only", "Both", "Who/Which/That only", "Other (specify)"]
+
+Question Forms: ["Yes/No questions only", "Wh- questions only", "Both", "Subject vs object questions", "Other (specify)"]
+
+Comparatives & Superlatives / Articles (a/an/the) / Prepositions of time and place / Gerunds & Infinitives / Used to / Would for past habits / Quantifiers (some/any/much/many) / Phrasal Verbs / Other grammar points: ["Affirmative only", "Full form (affirmative, negative, question)", "Specific subset (specify)", "All common uses", "Other (specify)"]
+
+If the teacher picks "Other (specify)" or types their own answer, just take it and move on — don't insist on the list. This scope detail should be reflected in the Main Aim wording and Procedure later (e.g. "to be" only changes what Clarification/Controlled Practice actually drill).
+
+Vocabulary list to use (also reused as the Context list — see step 4 above, and as the Timetable Topics list — see step 8 above):
+["Jobs & Professions", "Family & Relationships", "Food & Cooking", "Travel & Transport", "Daily Routines", "Hobbies & Free Time", "Health & the Body", "Weather & Seasons", "Clothes & Shopping", "House & Home", "Technology & Devices", "Education & School", "Money & Finance", "Environment & Nature", "Emotions & Feelings", "Describing People (appearance/personality)", "Sports", "Business & the Workplace", "Idioms & Collocations", "Phrasal Verbs", "Other (specify)"]
+
+Function list to use:
+["Asking for permission", "Making suggestions", "Giving advice", "Agreeing/Disagreeing", "Apologizing", "Making requests", "Offering and accepting/declining", "Inviting", "Expressing likes/dislikes", "Expressing opinions", "Complaining", "Making predictions", "Expressing certainty/uncertainty", "Comparing and contrasting", "Describing a process", "Giving directions", "Making small talk", "Persuading", "Negotiating", "Expressing regret", "Other (specify)"]
+
+## VOCABSCOPE protocol (MANDATORY follow-up every time a vocabulary topic is selected for the current lesson's Topic question)
+A vocabulary topic like "Jobs & Professions" is too broad for one lesson on its own — real teaching scopes it to a specific angle and word count. Every time the teacher picks a vocabulary topic, immediately follow up asking what scope this lesson covers, using the CHOICE protocol with a "Other (specify)" free-text escape. Use the scope set matching the topic picked, or the generic set if the topic isn't listed below:
+
+Jobs & Professions: ["Common jobs only (nouns)", "Jobs + describing duties/responsibilities", "Jobs + workplace verbs/collocations", "Jobs + qualifications/skills needed", "Other (specify)"]
+
+Family & Relationships: ["Immediate family only", "Extended family", "Relationship status/stages", "Family + descriptive adjectives", "Other (specify)"]
+
+Food & Cooking: ["Food items only (nouns)", "Cooking verbs/methods", "Restaurant/ordering language", "Recipes/instructions", "Taste & describing food", "Other (specify)"]
+
+Travel & Transport: ["Modes of transport only", "Airport/check-in language", "Hotel/accommodation language", "Directions & getting around", "Booking & travel planning", "Other (specify)"]
+
+Daily Routines: ["Morning/evening routines", "Time expressions + routines", "Frequency adverbs + routines", "Other (specify)"]
+
+Hobbies & Free Time: ["Common hobbies (nouns)", "Hobby-related verbs/collocations", "Talking about preferences", "Other (specify)"]
+
+Health & the Body: ["Body parts only", "Illness & symptoms", "At the doctor's (functional language)", "Healthy lifestyle vocabulary", "Other (specify)"]
+
+Weather & Seasons: ["Weather conditions only", "Seasons + associated activities", "Temperature & describing weather", "Other (specify)"]
+
+Clothes & Shopping: ["Clothing items only", "Shopping phrases (sizes, fitting, prices)", "Describing style/appearance", "Other (specify)"]
+
+House & Home: ["Rooms & furniture only", "Household chores/verbs", "Describing a home", "Renting/buying vocabulary", "Other (specify)"]
+
+Technology & Devices: ["Common devices (nouns)", "Tech verbs (download, install, charge)", "Social media/internet language", "Problems & troubleshooting language", "Other (specify)"]
+
+Education & School: ["School subjects only", "Classroom objects/language", "Academic verbs (study, revise, submit)", "Grades/levels/qualifications", "Other (specify)"]
+
+Money & Finance: ["Basic money vocabulary", "Banking language", "Shopping/spending verbs", "Budgeting & saving language", "Other (specify)"]
+
+Environment & Nature: ["Nature/landscape nouns only", "Environmental issues vocabulary", "Animals & wildlife", "Other (specify)"]
+
+Emotions & Feelings: ["Basic emotions only", "Extended/nuanced feelings", "Describing emotional reactions (verbs)", "Other (specify)"]
+
+Describing People (appearance/personality): ["Physical appearance only", "Personality traits only", "Both appearance and personality", "Other (specify)"]
+
+Sports: ["Common sports (nouns)", "Sports verbs/collocations (play, do, go)", "Equipment & places", "Other (specify)"]
+
+Business & the Workplace: ["Office vocabulary/objects", "Meeting & email language", "Job roles & departments", "Business verbs/collocations", "Other (specify)"]
+
+Idioms & Collocations / Phrasal Verbs: ["A specific small set (3-5 items, specify)", "A themed set (specify theme)", "General/mixed set", "Other (specify)"]
+
+Generic fallback for any other vocabulary topic: ["A focused subset (specify)", "Core/common items only", "Extended/full set", "Other (specify)"]
+
+If the teacher picks "Other (specify)" or types their own answer, just take it and move on — don't insist on the list. This scope should shape the actual word list used in Clarification and Controlled Practice in the final plan, not just the topic name.
+
+## FUNCTIONSCOPE protocol (MANDATORY follow-up every time a function is selected for the current lesson's Topic question)
+Functions also benefit from a quick scope clarification — register and specificity matter (e.g. "Making suggestions" among friends vs. in a business meeting uses very different language). After the teacher picks a function, follow up with the CHOICE protocol:
+
+["Formal register", "Informal/casual register", "Both formal and informal", "Specific situation (specify)", "Other (specify)"]
+
+If the teacher picks "Specific situation (specify)" or "Other (specify)," they'll type the detail — just take it and move on.
+
+Exam list to use (for Exam Prep class type):
+["IELTS", "TOEFL iBT", "TOEIC", "Cambridge B2 First (FCE)", "Cambridge C1 Advanced (CAE)", "Cambridge C2 Proficiency (CPE)", "Cambridge A2 Key (KET)", "Cambridge B1 Preliminary (PET)", "PTE Academic", "Duolingo English Test", "OET (Occupational English Test)", "BULATS / Linguaskill", "TOEFL Essentials", "Other (specify)"]
+
+Mother Tongue list to use (multi-select):
+["Spanish", "Mandarin Chinese", "Arabic", "Portuguese", "French", "Russian", "Hindi", "Japanese", "Korean", "Vietnamese", "Turkish", "German", "Italian", "Polish", "Thai", "Farsi/Persian", "Urdu", "Bengali", "Indonesian", "Ukrainian", "Other (specify)"]
+
+If the teacher's dropdown pick is "Other (specify)" or similar, or they typed their own answer instead of using the dropdown, just take their free-text answer and move on — don't insist on the list.
+
+## DUALCHOICES protocol (for Main Aim and Subsidiary Aim only)
+Renders two independent multi-select chip groups in one message — the teacher can pick from either or both, then hit one shared Done. Ask your question as normal conversational text wrapped in <Q></Q> as usual, then emit:
+
+<DUALCHOICES>{"groups": [{"label": "Skills", "options": ["Listening", "Speaking", "Reading", "Writing", "All"]}, {"label": "Language Area", "options": ["Vocabulary", "Grammar", "Function", "All"]}]}</DUALCHOICES>
+
+For Subsidiary Aim, add a "None" option to both groups since a lesson doesn't always have one:
+
+<DUALCHOICES>{"groups": [{"label": "Skills", "options": ["Listening", "Speaking", "Reading", "Writing", "All", "None"]}, {"label": "Language Area", "options": ["Vocabulary", "Grammar", "Function", "All", "None"]}]}</DUALCHOICES>
+
+The teacher's answer arrives as a combined string like "Skills: Speaking | Language Area: Grammar" — parse it accordingly.
+
+## SENTENCEBUILDER protocol (for Timetable Fit — previous and future lessons)
+Renders a fill-in-the-blank sentence with inline dropdowns for each {n} blank, plus an "add another sentence" button so the teacher can describe multiple prior/future lessons without you needing to ask twice. Ask your question wrapped in <Q></Q>, then emit:
+
+<SENTENCEBUILDER>{"template": "They covered {0} in the context of {1}", "blanks": [{"options": ["Listening", "Speaking", "Reading", "Writing", "Vocabulary", "Grammar", "Function"], "placeholder": "skill/area", "conditional": {"trigger": "Grammar", "options": ["Present Simple", "Present Continuous", "Present Perfect", "Present Perfect Continuous", "Past Simple", "Past Continuous", "Past Perfect", "Past Perfect Continuous", "Future Simple (will)", "Future with going to", "Future Continuous", "Future Perfect", "First Conditional", "Second Conditional", "Third Conditional", "Zero Conditional", "Mixed Conditionals", "Modals of obligation (must/have to)", "Modals of possibility (might/could/may)", "Modals of ability (can/could)", "Modals of deduction", "Passive Voice", "Reported Speech", "Relative Clauses", "Comparatives & Superlatives", "Articles (a/an/the)", "Prepositions of time and place", "Question Forms", "Gerunds & Infinitives", "Used to / Would for past habits", "Quantifiers (some/any/much/many)", "Phrasal Verbs", "Other (specify)"], "placeholder": "grammar point"}}, {"options": ["Travel & Transport", "Work", "Music", "Food & Cooking", "Technology", "Health", "Family & Relationships", "Shopping", "Environment", "Other (specify)"], "placeholder": "context"}], "addLabel": "+ Add another lesson", "allowAdd": true}</SENTENCEBUILDER>
+
+The first blank is ALWAYS this fixed 7-option list — the four skills (Listening, Speaking, Reading, Writing) plus the three language areas (Vocabulary, Grammar, Function) — never the topic/vocabulary list. The "conditional" field on that blank means: if the teacher picks "Grammar" in this blank, the interface automatically inserts an extra inline dropdown right after it, using the grammar-point list, so they can specify which grammar point. Only Grammar triggers this — Vocabulary does NOT get a follow-up topic dropdown in this sentence builder (the context blank already covers the setting). Always include the "conditional" object exactly as shown when emitting this tag for the first blank.
+
+Note: the sentence builder itself does NOT ask grammar scope inline (no third dropdown — it would get cramped). If the completed sentence(s) you receive back mention a specific grammar point (e.g. "They covered Grammar (Past Simple) in the context of..."), it's about a PAST or FUTURE lesson, not the current one, so scope detail isn't essential there — a brief mention in your next comment is enough, no need to interrupt with another question. The GRAMMARSCOPE follow-up is mandatory specifically for the CURRENT lesson's own Topic question (step 4), not for past/future lessons referenced in Timetable Fit.
+
+For the future/upcoming question, the template can read "They will cover {0} in the context of {1}" instead — adjust tense to match past vs. future. The teacher's answer arrives as one or more completed sentences joined together (including the grammar point inline if it was specified); read them as the Assumptions/Timetable Fit content accordingly.
+
+## When you have enough, produce the full lesson plan. Output it wrapped EXACTLY like this, with no text before or after the tags:
+
+<LESSON_PLAN>
+{
+  "title": "...",
+  "description": "...",
+  "materials": ["...", "..."],
+  "mainAim": "...",
+  "subsidiaryAims": "...",
+  "background": {
+    "classProfile": "...",
+    "assumptions": "...",
+    "personalAims": "...",
+    "timetableFit": "..."
+  },
+  "anticipatedProblems": [
+    {"problem": "...", "solution": "..."}
+  ],
+  "procedure": [
+    {"stage": "Warmer/Lead-in", "time": "3-5 min", "aim": "To set lesson context and engage students", "steps": ["...", "..."]}
+  ]
+}
+</LESSON_PLAN>
+
+A few sentences of warm intro can precede the tag (e.g. "Here's your lesson plan:") but the JSON inside the tags must be valid JSON, complete, and nothing else inside the tags. Title format: "[Lesson topic] – [Level]" e.g. "A Risky Business – Pre-Intermediate level" or "Past Simple Storytelling – Grade 6". Main aim format: "To provide clarification and practice of [target language] in the context of [context]." If a scope was specified for the target language (grammar scope like "to be only"; vocabulary scope like "jobs + workplace verbs"; function scope like "formal register"), the main aim must reflect that exact scope, not the bare topic — e.g. "To provide clarification and practice of the verb 'to be' in the past simple in the context of [context]," not just "To provide clarification and practice of past simple..."; or "To provide clarification and practice of jobs vocabulary and related workplace verbs in the context of [context]," not just "jobs vocabulary." This precision matters: the whole point of asking scope is that it changes what gets taught, so it must show up here and shape the Procedure stages too (Clarification and Controlled Practice should drill exactly the scoped items, not the full broad topic). Class Profile in the background section should synthesize the structured inputs (number of students, age range, occupations, dynamics) into a flowing narrative paragraph in CELTA TP style — e.g. "The Ss in this pre-intermediate class are between the age of 29 and 32. They are two male friends, both of whom are engineers..." — not a bulleted restatement of the raw answers. Anticipated problems must be SPECIFIC to this lesson's actual content and class profile — never generic boilerplate.
+
+Use the EXACT stage names, order, and timing for whichever template applies:
+
+**Presentation Practice Production (PPP):** Warmer/Lead-in (3-5 min, to set lesson context and engage students) → Exposure (8-10 min, to provide context for the target language through a text or situation) → Highlighting (2-4 min, to draw students' attention to the target language) → Clarification (8-10 min, to clarify the meaning, form and pronunciation of the target language) → Controlled Practice (8-10 min, to concept check and prepare students for more meaningful practice) → Semi-Controlled Practice (8-10 min, to concept check further and prepare students for free practice) → Free Practice (8-10 min, to provide students with free practice of the target language)
+
+**Test Teach Test (TTT):** Warmer/Lead-in (3-5 min, to set lesson context and engage students) → Test #1 (8-10 min, to gauge students' prior knowledge of the target language) → Teach (15-20 min, to clarify areas of the target language where students had difficulty in the first test stage) → Test #2 (8-10 min, check students' use of the target language again and compare with the first test) → Free practice (13-15 min, to provide students with free practice of the target language)
+
+**Task-Based Learning (TBL):** Warmer/Lead-in (3-5 min, to set lesson context and engage students) → Exposure (8-10 min, to provide a model of the task and highlight useful words and phrases) → Task (8-10 min, to provide an opportunity to practice target productive skills) → Planning (6-8 min, to provide an opportunity to plan students' reports) → Report (6-8 min, to allow students to report on how they did the task and how it went) → Language Analysis (6-8 min, to clarify the meaning, form and pronunciation of the task language) → Language Practice (8-10 min, to provide students with practice of the task language)
+
+**Receptive Skills:** Warmer/Lead-in (3-5 min, to set lesson context and engage students) → Pre-Reading/Listening (10-12 min, to prepare students for the text and make it accessible) → While-Reading/Listening #1 (10-12 min, to provide students with less challenging gist and specific information reading/listening tasks) → While-Reading/Listening #2 (14-16 min, to provide students with more challenging detailed, deduction and inference reading/listening tasks) → Post-Reading/Listening (8-10 min, to provide an opportunity to respond to the text and expand on what they've learned)
+
+**Productive Skills:** Warmer/Lead-in (3-5 min, to set lesson context and engage students) → Exposure (8-10 min, to provide a model of production expected in coming tasks through reading/listening) → Useful Language (8-10 min, to highlight and clarify useful language for coming productive tasks) → Productive Task(s) (18-20 min, to provide an opportunity to practice target productive skills) → Feedback and Error Correction (8-10 min, to provide feedback on students' production and use of language)
+
+Scale timing proportionally if the total lesson length differs from the ~45-60 min default these figures assume, but keep stage names, order, and relative weighting intact. Each procedure step should be concrete and specific to this lesson's actual content, not generic instructions.
+
+## Handling uploaded images
+The teacher can attach a photo or uploaded image at any point in the interview (a textbook page, a worksheet, a coursebook unit, a whiteboard photo, realia, etc.) via the attach button. When an image arrives, look at it and decide which of these it is, since the right response differs:
+
+- **A textbook/coursebook page or worksheet with identifiable content** (a unit title, target language, exercises, a reading text): extract what you can directly — topic, apparent level, language area, context — and use it to skip or pre-fill the relevant questions in the interview rather than asking the teacher to repeat what's visibly on the page. Confirm what you read back briefly ("This looks like a B1 unit on past simple narratives — is that right?") rather than assuming silently, since OCR/reading errors are possible.
+- **A reference image with no clear teaching content** (e.g. a photo of realia, a classroom, students' work, a general scene): treat it as context/reference material — comment on it naturally and ask how the teacher wants to use it (e.g. "Nice photo — want to build a vocabulary lesson around what's in this image, or use it as a lead-in for something else?").
+- **An image that's ambiguous or hard to read**: say so plainly and ask the teacher to clarify or describe what they want from it, rather than guessing at content you can't actually make out.
+
+Whichever case it is, fold this into the normal interview flow — don't restart the conversation structure, just treat the image as one more piece of information you've gathered, in whatever step you're currently on. After reading the image, continue with whatever the next unanswered question is (still using the comment/question split and CHOICES/DROPDOWN/etc. protocols as normal).
+
+## Tone
+Knowledgeable, precise, encouraging — the way a good DOS (Director of Studies) or TP tutor gives feedback: direct, specific, never generic, never filler praise.`;
+
+const thread = document.getElementById('thread');
+const input = document.getElementById('input');
+const sendBtn = document.getElementById('sendBtn');
+const railList = document.getElementById('railList');
+const newSessionBtn = document.getElementById('newSessionBtn');
+const attachBtn = document.getElementById('attachBtn');
+const attachMenu = document.getElementById('attachMenu');
+const uploadFileBtn = document.getElementById('uploadFileBtn');
+const takePhotoBtn = document.getElementById('takePhotoBtn');
+const fileInput = document.getElementById('fileInput');
+const cameraInput = document.getElementById('cameraInput');
+const imagePreviewRow = document.getElementById('imagePreviewRow');
+
+let messages = [];
+let planGenerated = false;
+let pendingImage = null; // { mediaType, base64Data, dataUrl }
+
+const FIRST_QUESTION_TEXT = "Let's start with the kind of class this is.";
+const FIRST_QUESTION_CHOICES = {
+  mode: "single",
+  options: ["ESL", "ESP", "EAP", "Exam Prep"]
+};
+
+function renderWelcome(){
+  thread.innerHTML = `
+    <div class="welcome">
+      <div class="welcome-mark">S</div>
+      <h1>What kind of class is this?</h1>
+      <p>I'll ask everything step by step, the way a TP tutor would, then build out the full staged plan. Let's start with class type.</p>
+    </div>
+  `;
+  const openingMessage = `${FIRST_QUESTION_TEXT}\n<CHOICES>${JSON.stringify(FIRST_QUESTION_CHOICES)}</CHOICES>`;
+  messages.push({role:'assistant', content: openingMessage});
+  addMentorBubbleWithChoices(openingMessage, FIRST_QUESTION_CHOICES);
+}
+
+function updateRail(stageKey){
+  const order = ['topic','profile','timetable','logistics','draft','done'];
+  const idx = order.indexOf(stageKey);
+  railList.querySelectorAll('li').forEach(li=>{
+    const liIdx = order.indexOf(li.dataset.stage);
+    li.classList.remove('done','active');
+    if(liIdx < idx) li.classList.add('done');
+    else if(liIdx === idx) li.classList.add('active');
+  });
+}
+
+function guessStage(){
+  const count = messages.filter(m=>m.role==='user').length;
+  if(planGenerated) return 'done';
+  if(count === 0) return 'topic';
+  if(count === 1) return 'focus';
+  if(count === 2) return 'profile';
+  if(count === 3) return 'timetable';
+  if(count === 4) return 'logistics';
+  return 'draft';
+}
+
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// minimal markdown for plain mentor messages (bold, paragraphs)
+function renderMarkdownLite(text){
+  const escaped = escapeHtml(text);
+  const withBold = escaped.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  return withBold.split(/\n\n+/).map(p => `<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
+}
+
+// Splits a mentor message into { comment, question }: the <Q>...</Q> tag
+// content is the actual question (rendered in a highlighted box), and
+// everything outside it is commentary/reaction (rendered as plain text).
+function splitCommentAndQuestion(text){
+  const match = text.match(/<Q>([\s\S]*?)<\/Q>/);
+  if(!match) return { comment: text.trim(), question: null };
+  const question = match[1].trim();
+  const comment = text.replace(/<Q>[\s\S]*?<\/Q>/, '').trim();
+  return { comment, question };
+}
+
+function renderCommentAndQuestionHtml(text){
+  const { comment, question } = splitCommentAndQuestion(text);
+  const commentHtml = comment ? `<div class="mentor-comment">${renderMarkdownLite(comment)}</div>` : '';
+  const questionHtml = question ? `<div class="question-box">${renderMarkdownLite(question)}</div>` : '';
+  return commentHtml + questionHtml;
+}
+
+function addUserBubble(text, imageDataUrl){
+  const div = document.createElement('div');
+  div.className = 'msg user';
+  const imageHtml = imageDataUrl ? `<img class="msg-image" src="${imageDataUrl}" alt="Attached image">` : '';
+  const textHtml = text ? renderMarkdownLite(text) : '';
+  div.innerHTML = `<div class="avatar user">T</div><div class="bubble">${textHtml}${imageHtml}</div>`;
+  thread.appendChild(div);
+  thread.scrollTop = thread.scrollHeight;
+}
+
+function addMentorBubble(text){
+  const div = document.createElement('div');
+  div.className = 'msg mentor';
+  div.innerHTML = `<div class="avatar mentor">S</div><div class="bubble">${renderCommentAndQuestionHtml(text)}</div>`;
+  thread.appendChild(div);
+  thread.scrollTop = thread.scrollHeight;
+  return div;
+}
+
+// Attempts to parse possibly-malformed JSON from model output, with light
+// repair for the most common slip-ups (missing closing brace/bracket,
+// trailing commas) before giving up.
+function tryParseJSON(raw){
+  const str = raw.trim();
+  try{
+    return JSON.parse(str);
+  }catch(e){
+    // repair attempt 1: strip trailing commas before } or ]
+    let repaired = str.replace(/,(\s*[}\]])/g, '$1');
+    try{
+      return JSON.parse(repaired);
+    }catch(e2){
+      // repair attempt 2: balance missing closing brackets/braces
+      const openCurly = (repaired.match(/{/g) || []).length;
+      const closeCurly = (repaired.match(/}/g) || []).length;
+      const openSquare = (repaired.match(/\[/g) || []).length;
+      const closeSquare = (repaired.match(/\]/g) || []).length;
+      let patched = repaired;
+      for(let i = 0; i < (openSquare - closeSquare); i++) patched += ']';
+      for(let i = 0; i < (openCurly - closeCurly); i++) patched += '}';
+      try{
+        return JSON.parse(patched);
+      }catch(e3){
+        console.error('JSON repair failed', e3, str);
+        return null;
+      }
+    }
+  }
+}
+
+function extractChoices(text){
+  const match = text.match(/<CHOICES>([\s\S]*?)<\/CHOICES>/);
+  if(!match) return null;
+  return tryParseJSON(match[1]);
+}
+
+function stripChoicesTag(text){
+  return text.replace(/<CHOICES>[\s\S]*?<\/CHOICES>/, '').trim();
+}
+
+function addMentorBubbleWithChoices(text, choices){
+  const cleanText = stripChoicesTag(text);
+  const mode = choices.mode === 'multi' ? 'multi' : 'single';
+  const div = document.createElement('div');
+  div.className = 'msg mentor';
+  const chipsHtml = choices.options.map(opt => {
+    const isRecommended = choices.recommended && opt === choices.recommended;
+    const isAll = opt === 'All' || opt === 'None';
+    const cls = ['choice-chip', isRecommended ? 'recommended' : '', isAll ? 'all-chip' : ''].filter(Boolean).join(' ');
+    return `<button class="${cls}" data-choice="${escapeHtml(opt)}">${escapeHtml(opt)}</button>`;
+  }).join('');
+
+  const freeTextLinkHtml = choices.freeTextPrompt
+    ? `<button class="choice-freetext-link" type="button">${escapeHtml(choices.freeTextLabel || "I'll type my own")}</button>`
+    : '';
+
+  const confirmRowHtml = mode === 'multi'
+    ? `<div class="choice-confirm-row">
+         <button class="btn-confirm" disabled>Done</button>
+         <span class="hint">Tap all that apply</span>
+       </div>`
+    : '';
+
+  div.innerHTML = `
+    <div class="avatar mentor">S</div>
+    <div>
+      <div class="bubble">${renderCommentAndQuestionHtml(cleanText)}</div>
+      <div class="choice-row" data-mode="${mode}">${chipsHtml}</div>
+      ${confirmRowHtml}
+      ${freeTextLinkHtml}
+    </div>
+  `;
+  thread.appendChild(div);
+  thread.scrollTop = thread.scrollHeight;
+
+  const row = div.querySelector('.choice-row');
+  const confirmBtn = div.querySelector('.btn-confirm');
+  const freeTextLink = div.querySelector('.choice-freetext-link');
+  const selected = new Set();
+
+  function lockRow(){
+    row.classList.add('answered');
+    row.querySelectorAll('.choice-chip').forEach(b => b.disabled = true);
+    if(confirmBtn) confirmBtn.disabled = true;
+    if(freeTextLink) freeTextLink.disabled = true;
+  }
+
+  function submit(value){
+    lockRow();
+    input.value = value;
+    handleSend();
+  }
+
+  row.querySelectorAll('.choice-chip').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(row.classList.contains('answered')) return;
+      const picked = btn.dataset.choice;
+
+      if(mode === 'single'){
+        btn.classList.add('picked');
+        if(picked.startsWith('K-12 grade') || picked === choices.freeTextTrigger){
+          lockRow();
+          input.value = '';
+          input.focus();
+          input.placeholder = choices.freeTextPlaceholder || 'Type your answer…';
+        } else {
+          submit(picked);
+        }
+      } else if(picked === 'All'){
+        // "All" shortcut: select every real option and submit immediately
+        const realOptions = choices.options.filter(o => o !== 'All' && o !== 'None');
+        row.querySelectorAll('.choice-chip').forEach(b => {
+          if(b.dataset.choice !== 'All') b.classList.add('selected', 'picked');
+        });
+        btn.classList.add('picked');
+        lockRow();
+        input.value = realOptions.join(', ');
+        handleSend();
+      } else if(picked === 'None'){
+        // "None" shortcut: mutually exclusive, submits immediately
+        btn.classList.add('selected', 'picked');
+        lockRow();
+        input.value = 'None';
+        handleSend();
+      } else {
+        // multi-select: toggle, don't submit yet
+        if(selected.has(picked)){
+          selected.delete(picked);
+          btn.classList.remove('selected');
+        } else {
+          selected.add(picked);
+          btn.classList.add('selected');
+        }
+        if(confirmBtn) confirmBtn.disabled = selected.size === 0;
+      }
+    });
+  });
+
+  if(confirmBtn){
+    confirmBtn.addEventListener('click', ()=>{
+      if(selected.size === 0 || row.classList.contains('answered')) return;
+      row.querySelectorAll('.choice-chip.selected').forEach(b => b.classList.add('picked'));
+      submit(Array.from(selected).join(', '));
+    });
+  }
+
+  if(freeTextLink){
+    freeTextLink.addEventListener('click', ()=>{
+      if(row.classList.contains('answered')) return;
+      lockRow();
+      input.value = '';
+      input.focus();
+      input.placeholder = choices.freeTextPlaceholder || 'Type your answer…';
+    });
+  }
+
+  return div;
+}
+
+function extractDualChoices(text){
+  const match = text.match(/<DUALCHOICES>([\s\S]*?)<\/DUALCHOICES>/);
+  if(!match) return null;
+  return tryParseJSON(match[1]);
+}
+
+function stripDualChoicesTag(text){
+  return text.replace(/<DUALCHOICES>[\s\S]*?<\/DUALCHOICES>/, '').trim();
+}
+
+// Renders two independent multi-select chip groups in one message (used for
+// Main Aim / Subsidiary Aim: a Skills row and a Language Area row shown
+// together). Picks from either or both groups; one shared Done submits.
+// dualChoices shape: { groups: [ {label, options}, {label, options} ] }
+function addMentorBubbleWithDualChoices(text, dualChoices){
+  const cleanText = stripDualChoicesTag(text);
+  const div = document.createElement('div');
+  div.className = 'msg mentor';
+
+  const groupsHtml = dualChoices.groups.map((group, gi) => {
+    const chips = group.options.map(opt => {
+      const isAll = opt === 'All' || opt === 'None';
+      const cls = ['choice-chip', isAll ? 'all-chip' : ''].filter(Boolean).join(' ');
+      return `<button class="${cls}" data-group="${gi}" data-choice="${escapeHtml(opt)}">${escapeHtml(opt)}</button>`;
+    }).join('');
+    return `
+      <div class="dual-choice-group" data-group-index="${gi}">
+        <div class="dual-choice-group-label">${escapeHtml(group.label)}</div>
+        <div class="choice-row" data-mode="multi">${chips}</div>
+      </div>
+    `;
+  }).join('');
+
+  div.innerHTML = `
+    <div class="avatar mentor">S</div>
+    <div>
+      <div class="bubble">${renderCommentAndQuestionHtml(cleanText)}</div>
+      <div class="dual-choice-block">
+        ${groupsHtml}
+        <div class="choice-confirm-row">
+          <button class="btn-confirm" disabled>Done</button>
+          <span class="hint">Pick from either or both lists</span>
+        </div>
+      </div>
+    </div>
+  `;
+  thread.appendChild(div);
+  thread.scrollTop = thread.scrollHeight;
+
+  const block = div.querySelector('.dual-choice-block');
+  const confirmBtn = div.querySelector('.btn-confirm');
+  const groupSelections = dualChoices.groups.map(() => new Set());
+
+  function updateConfirmState(){
+    const anySelected = groupSelections.some(s => s.size > 0);
+    confirmBtn.disabled = !anySelected;
+  }
+
+  function lockAll(){
+    block.classList.add('answered');
+    block.querySelectorAll('.choice-chip').forEach(b => b.disabled = true);
+    confirmBtn.disabled = true;
+  }
+
+  block.querySelectorAll('.choice-chip').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(block.classList.contains('answered')) return;
+      const gi = Number(btn.dataset.group);
+      const picked = btn.dataset.choice;
+      const groupRow = btn.closest('.choice-row');
+      const groupOptions = dualChoices.groups[gi].options;
+
+      if(picked === 'All'){
+        const realOptions = groupOptions.filter(o => o !== 'All' && o !== 'None');
+        groupRow.querySelectorAll('.choice-chip').forEach(b => {
+          if(b.dataset.choice !== 'All' && b.dataset.choice !== 'None') b.classList.add('selected');
+        });
+        groupSelections[gi] = new Set(realOptions);
+      } else if(picked === 'None'){
+        groupRow.querySelectorAll('.choice-chip').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        groupSelections[gi] = new Set(['None']);
+      } else {
+        groupRow.querySelectorAll('.choice-chip[data-choice="All"], .choice-chip[data-choice="None"]').forEach(b => b.classList.remove('selected'));
+        groupSelections[gi].delete('All');
+        groupSelections[gi].delete('None');
+        if(groupSelections[gi].has(picked)){
+          groupSelections[gi].delete(picked);
+          btn.classList.remove('selected');
+        } else {
+          groupSelections[gi].add(picked);
+          btn.classList.add('selected');
+        }
+      }
+      updateConfirmState();
+    });
+  });
+
+  confirmBtn.addEventListener('click', ()=>{
+    if(confirmBtn.disabled || block.classList.contains('answered')) return;
+    const parts = dualChoices.groups.map((group, gi) => {
+      const picks = Array.from(groupSelections[gi]);
+      if(picks.length === 0) return null;
+      return `${group.label}: ${picks.join(', ')}`;
+    }).filter(Boolean);
+    lockAll();
+    input.value = parts.join(' | ');
+    handleSend();
+  });
+
+  return div;
+}
+
+function extractSentenceBuilder(text){
+  const match = text.match(/<SENTENCEBUILDER>([\s\S]*?)<\/SENTENCEBUILDER>/);
+  if(!match) return null;
+  return tryParseJSON(match[1]);
+}
+
+function stripSentenceBuilderTag(text){
+  return text.replace(/<SENTENCEBUILDER>[\s\S]*?<\/SENTENCEBUILDER>/, '').trim();
+}
+
+// Renders a fill-in-the-blank sentence with inline <select> dropdowns for
+// each {n} placeholder in the template, plus an "add another sentence"
+// control that duplicates the row (used for Timetable Fit: past/future
+// lessons as "They covered ___ in the context of ___").
+// sb shape: { template: "They covered {0} in the context of {1}", blanks: [ {options}, {options} ], addLabel, allowAdd }
+function addMentorBubbleWithSentenceBuilder(text, sb){
+  const cleanText = stripSentenceBuilderTag(text);
+  const div = document.createElement('div');
+  div.className = 'msg mentor';
+
+  function buildRowHtml(rowIndex){
+    const parts = sb.template.split(/\{(\d+)\}/);
+    let rowHtml = '';
+    for(let i = 0; i < parts.length; i++){
+      if(i % 2 === 0){
+        rowHtml += escapeHtml(parts[i]);
+      } else {
+        const blankIndex = Number(parts[i]);
+        const blank = sb.blanks[blankIndex];
+        const opts = blank.options.map(o => `<option value="${escapeHtml(o)}">${escapeHtml(o)}</option>`).join('');
+        rowHtml += `<select class="blank-select" data-row="${rowIndex}" data-blank="${blankIndex}" required>
+          <option value="" selected disabled>${escapeHtml(blank.placeholder || 'choose…')}</option>
+          ${opts}
+        </select>`;
+        // Reserve a spot right after this blank for its conditional follow-up dropdown, if any.
+        if(blank.conditional){
+          rowHtml += `<span class="conditional-slot" data-row="${rowIndex}" data-for-blank="${blankIndex}"></span>`;
+        }
+      }
+    }
+    return `<div class="sentence-row" data-row="${rowIndex}">${rowHtml}</div>`;
+  }
+
+  div.innerHTML = `
+    <div class="avatar mentor">S</div>
+    <div>
+      <div class="bubble">${renderCommentAndQuestionHtml(cleanText)}</div>
+      <div class="sentence-builder">
+        <div class="sentence-rows">${buildRowHtml(0)}</div>
+        <div class="sentence-builder-actions">
+          ${sb.allowAdd !== false ? `<button class="btn-add-sentence" type="button">${escapeHtml(sb.addLabel || '+ Add another sentence')}</button>` : ''}
+          <button class="btn-confirm" disabled>Done</button>
+        </div>
+      </div>
+    </div>
+  `;
+  thread.appendChild(div);
+  thread.scrollTop = thread.scrollHeight;
+
+  const builder = div.querySelector('.sentence-builder');
+  const rowsContainer = div.querySelector('.sentence-rows');
+  const addBtn = div.querySelector('.btn-add-sentence');
+  const confirmBtn = div.querySelector('.btn-confirm');
+  let rowCount = 1;
+
+  function allBlanksFilled(){
+    // Primary blanks must all be filled. Any conditional dropdown that is
+    // currently visible (its trigger was picked) must also be filled.
+    const selects = rowsContainer.querySelectorAll('.blank-select');
+    const primaryOk = Array.from(selects).every(s => s.value !== '');
+    const condSelects = rowsContainer.querySelectorAll('.conditional-select');
+    const condOk = Array.from(condSelects).every(s => s.value !== '');
+    return primaryOk && condOk;
+  }
+
+  function updateConfirmState(){
+    confirmBtn.disabled = !allBlanksFilled();
+  }
+
+  function handleBlankChange(selectEl){
+    const rowIndex = selectEl.dataset.row;
+    const blankIndex = selectEl.dataset.blank;
+    const blank = sb.blanks[Number(blankIndex)];
+    if(!blank || !blank.conditional) return;
+
+    const slot = rowsContainer.querySelector(`.conditional-slot[data-row="${rowIndex}"][data-for-blank="${blankIndex}"]`);
+    if(!slot) return;
+
+    if(selectEl.value === blank.conditional.trigger){
+      const opts = blank.conditional.options.map(o => `<option value="${escapeHtml(o)}">${escapeHtml(o)}</option>`).join('');
+      slot.innerHTML = `<select class="blank-select conditional-select" data-row="${rowIndex}" data-blank="${blankIndex}-cond" required>
+        <option value="" selected disabled>${escapeHtml(blank.conditional.placeholder || 'choose…')}</option>
+        ${opts}
+      </select>`;
+    } else {
+      slot.innerHTML = '';
+    }
+  }
+
+  rowsContainer.addEventListener('change', (e)=>{
+    if(e.target.classList.contains('blank-select')){
+      if(!e.target.classList.contains('conditional-select')){
+        handleBlankChange(e.target);
+      }
+      updateConfirmState();
+    }
+  });
+
+  if(addBtn){
+    addBtn.addEventListener('click', ()=>{
+      if(builder.classList.contains('answered')) return;
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = buildRowHtml(rowCount);
+      rowsContainer.appendChild(wrapper.firstElementChild);
+      rowCount++;
+      updateConfirmState();
+    });
+  }
+
+  confirmBtn.addEventListener('click', ()=>{
+    if(confirmBtn.disabled || builder.classList.contains('answered')) return;
+    const sentences = Array.from(rowsContainer.querySelectorAll('.sentence-row')).map(row=>{
+      const primarySelects = row.querySelectorAll('.blank-select:not(.conditional-select)');
+      let filled = sb.template;
+      primarySelects.forEach(s=>{
+        let value = s.value;
+        const condSelect = row.querySelector(`.conditional-select[data-row="${s.dataset.row}"][data-blank="${s.dataset.blank}-cond"]`);
+        if(condSelect && condSelect.value){
+          value = `${value} (${condSelect.value})`;
+        }
+        filled = filled.replace(`{${s.dataset.blank}}`, value);
+      });
+      return filled;
+    });
+    builder.classList.add('answered');
+    input.value = sentences.join(' ');
+    handleSend();
+  });
+
+  return div;
+}
+
+function extractDropdown(text){
+  const match = text.match(/<DROPDOWN>([\s\S]*?)<\/DROPDOWN>/);
+  if(!match) return null;
+  return tryParseJSON(match[1]);
+}
+
+function stripDropdownTag(text){
+  return text.replace(/<DROPDOWN>[\s\S]*?<\/DROPDOWN>/, '').trim();
+}
+
+function addMentorBubbleWithDropdown(text, dropdown){
+  const cleanText = stripDropdownTag(text);
+  const isMulti = dropdown.mode === 'multi';
+  const div = document.createElement('div');
+  div.className = 'msg mentor';
+  const optionsHtml = dropdown.options.map(opt =>
+    `<option value="${escapeHtml(opt)}">${escapeHtml(opt)}</option>`
+  ).join('');
+  const placeholderOption = `<option value="" selected disabled>${escapeHtml(dropdown.placeholder || 'Choose from the list…')}</option>`;
+
+  if(isMulti){
+    div.innerHTML = `
+      <div class="avatar mentor">S</div>
+      <div>
+        <div class="bubble">${renderCommentAndQuestionHtml(cleanText)}</div>
+        <div class="dropdown-block">
+          <div class="dropdown-added-row"></div>
+          <div class="dropdown-row">
+            <select class="dropdown-select">
+              ${placeholderOption}
+              ${optionsHtml}
+            </select>
+            <button class="btn-add-item" disabled type="button">+ Add</button>
+            <span class="dropdown-or">or just type your own answer below</span>
+          </div>
+          <button class="dropdown-go" disabled>Done</button>
+        </div>
+      </div>
+    `;
+    thread.appendChild(div);
+    thread.scrollTop = thread.scrollHeight;
+
+    const block = div.querySelector('.dropdown-block');
+    const select = div.querySelector('.dropdown-select');
+    const addBtn = div.querySelector('.btn-add-item');
+    const addedRow = div.querySelector('.dropdown-added-row');
+    const goBtn = div.querySelector('.dropdown-go');
+    const added = [];
+
+    function renderAdded(){
+      addedRow.innerHTML = added.map((val, i) => `
+        <span class="added-chip">${escapeHtml(val)}<button type="button" data-remove="${i}" aria-label="Remove">×</button></span>
+      `).join('');
+      goBtn.disabled = added.length === 0;
+      addedRow.querySelectorAll('button[data-remove]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          if(block.classList.contains('answered')) return;
+          added.splice(Number(btn.dataset.remove), 1);
+          renderAdded();
+        });
+      });
+    }
+
+    select.addEventListener('change', ()=>{
+      addBtn.disabled = !select.value;
+    });
+
+    addBtn.addEventListener('click', ()=>{
+      if(block.classList.contains('answered') || !select.value) return;
+      if(!added.includes(select.value)) added.push(select.value);
+      select.value = '';
+      addBtn.disabled = true;
+      renderAdded();
+    });
+
+    goBtn.addEventListener('click', ()=>{
+      if(block.classList.contains('answered') || added.length === 0) return;
+      block.classList.add('answered');
+      input.value = added.join(', ');
+      handleSend();
+    });
+
+    return div;
+  }
+
+  div.innerHTML = `
+    <div class="avatar mentor">S</div>
+    <div>
+      <div class="bubble">${renderCommentAndQuestionHtml(cleanText)}</div>
+      <div class="dropdown-block">
+        <div class="dropdown-row">
+          <select class="dropdown-select">
+            ${placeholderOption}
+            ${optionsHtml}
+          </select>
+          <button class="dropdown-go" disabled>Use this</button>
+          <span class="dropdown-or">or just type your own answer below</span>
+        </div>
+      </div>
+    </div>
+  `;
+  thread.appendChild(div);
+  thread.scrollTop = thread.scrollHeight;
+
+  const block = div.querySelector('.dropdown-block');
+  const select = div.querySelector('.dropdown-select');
+  const goBtn = div.querySelector('.dropdown-go');
+
+  select.addEventListener('change', ()=>{
+    goBtn.disabled = !select.value;
+  });
+
+  goBtn.addEventListener('click', ()=>{
+    if(!select.value || block.classList.contains('answered')) return;
+    block.classList.add('answered');
+    input.value = select.value;
+    handleSend();
+  });
+
+  return div;
+}
+
+function addTypingIndicator(){
+  const div = document.createElement('div');
+  div.className = 'msg mentor';
+  div.id = 'typingIndicator';
+  div.innerHTML = `<div class="avatar mentor">S</div><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  thread.appendChild(div);
+  thread.scrollTop = thread.scrollHeight;
+}
+
+function removeTypingIndicator(){
+  const el = document.getElementById('typingIndicator');
+  if(el) el.remove();
+}
+
+function renderPlanDoc(plan){
+  const materialsHtml = plan.materials.map(m=>`<li>${escapeHtml(m)}</li>`).join('');
+  const problemsHtml = plan.anticipatedProblems.map(p=>`
+    <li><strong>${escapeHtml(p.problem)}</strong><br>${escapeHtml(p.solution)}</li>
+  `).join('');
+  const procedureHtml = plan.procedure.map(stage => `
+    <div class="stage-row">
+      <div class="stage-time">${escapeHtml(stage.time)}</div>
+      <div class="stage-content">
+        <strong>${escapeHtml(stage.stage)}</strong>
+        <div style="font-size:13px;color:var(--ink-soft);margin-bottom:6px;">${escapeHtml(stage.aim)}</div>
+        <ul>${stage.steps.map(s=>`<li>${escapeHtml(s)}</li>`).join('')}</ul>
+      </div>
+    </div>
+  `).join('');
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'msg mentor';
+  wrapper.innerHTML = `
+    <div class="avatar mentor">S</div>
+    <div class="plan-doc">
+      <div class="plan-doc-header">
+        <div class="eyebrow">Lesson Plan</div>
+        <h2>${escapeHtml(plan.title)}</h2>
+      </div>
+      <div class="plan-body">
+        <h3>Description</h3>
+        <p>${escapeHtml(plan.description)}</p>
+
+        <h3>Materials</h3>
+        <ul>${materialsHtml}</ul>
+
+        <h3>Main Aim</h3>
+        <p>${escapeHtml(plan.mainAim)}</p>
+
+        <h3>Subsidiary Aims</h3>
+        <p>${escapeHtml(plan.subsidiaryAims)}</p>
+
+        <h3>Background</h3>
+        <h4>Class Profile</h4>
+        <p>${escapeHtml(plan.background.classProfile)}</p>
+        <h4>Assumptions</h4>
+        <p>${escapeHtml(plan.background.assumptions)}</p>
+        <h4>Personal Aims</h4>
+        <p>${escapeHtml(plan.background.personalAims)}</p>
+        <h4>Timetable Fit</h4>
+        <p>${escapeHtml(plan.background.timetableFit)}</p>
+
+        <h3>Anticipated Problems &amp; Solutions</h3>
+        <ul>${problemsHtml}</ul>
+
+        <h3>Procedure</h3>
+        ${procedureHtml}
+      </div>
+      <div class="plan-actions">
+        <button class="primary" id="downloadPlanBtn">Download as text</button>
+        <button id="revisePlanBtn">Ask for a revision</button>
+      </div>
+    </div>
+  `;
+  thread.appendChild(wrapper);
+  thread.scrollTop = thread.scrollHeight;
+
+  wrapper.querySelector('#downloadPlanBtn').addEventListener('click', ()=> downloadPlan(plan));
+  wrapper.querySelector('#revisePlanBtn').addEventListener('click', ()=>{
+    input.value = "Can you revise: ";
+    input.focus();
+  });
+}
+
+function downloadPlan(plan){
+  let out = `${plan.title}\n${'='.repeat(plan.title.length)}\n\n`;
+  out += `DESCRIPTION\n${plan.description}\n\n`;
+  out += `MATERIALS\n${plan.materials.map(m=>'- '+m).join('\n')}\n\n`;
+  out += `MAIN AIM\n${plan.mainAim}\n\n`;
+  out += `SUBSIDIARY AIMS\n${plan.subsidiaryAims}\n\n`;
+  out += `BACKGROUND\nClass Profile:\n${plan.background.classProfile}\n\nAssumptions:\n${plan.background.assumptions}\n\nPersonal Aims:\n${plan.background.personalAims}\n\nTimetable Fit:\n${plan.background.timetableFit}\n\n`;
+  out += `ANTICIPATED PROBLEMS & SOLUTIONS\n${plan.anticipatedProblems.map(p=>`- Problem: ${p.problem}\n  Solution: ${p.solution}`).join('\n')}\n\n`;
+  out += `PROCEDURE\n${plan.procedure.map(s=>`\n${s.stage} (${s.time}) — ${s.aim}\n${s.steps.map(st=>'  • '+st).join('\n')}`).join('\n')}\n`;
+
+  const blob = new Blob([out], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = plan.title.replace(/[^a-z0-9]+/gi,'_').toLowerCase() + '_lesson_plan.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function extractPlan(text){
+  const match = text.match(/<LESSON_PLAN>([\s\S]*?)<\/LESSON_PLAN>/);
+  if(!match) return null;
+  return tryParseJSON(match[1]);
+}
+
+function stripPlanTag(text){
+  return text.replace(/<LESSON_PLAN>[\s\S]*?<\/LESSON_PLAN>/, '').trim();
+}
+
+async function callClaude(){
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 4000,
+      system: SYSTEM_PROMPT,
+      messages: messages.map(m => ({role: m.role, content: m.content}))
+    })
+  });
+  const data = await response.json();
+  const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text);
+  return textBlocks.join('\n');
+}
+
+// Safety net: if the model asks one of these questions but forgets to emit
+// the CHOICES/DROPDOWN tag, detect it from the question text and inject the
+// right chip set client-side so the teacher never sees a bare, option-less question.
+const KNOWN_QUESTION_FALLBACKS = [
+  { pattern: /what level/i, choices: {mode:"single", options:["Literacy","Beginner","Elementary","Pre-Intermediate","Intermediate","Upper-Intermediate","Advanced","Mixed","K-12 grade (specify)"], recommended:null, freeTextTrigger:"K-12 grade (specify)", freeTextPlaceholder:"Which grade? e.g. Grade 6"} },
+  { pattern: /kind of class|class type|esl,?\s*esp,?\s*eap/i, choices: {mode:"single", options:["ESL","ESP","EAP","Exam Prep"], recommended:null} },
+  { pattern: /which skills|skills? (will|does) this lesson|skills? focus/i, choices: {mode:"multi", options:["Listening","Speaking","Reading","Writing","All","None"]} },
+  { pattern: /language area|vocabulary,?\s*grammar,?\s*(or\s*)?function/i, choices: {mode:"multi", options:["Vocabulary","Grammar","Function","All","None"]} },
+  { pattern: /age range|how old/i, choices: {mode:"single", options:["Pre-K (0-4)","Young Learners (5-7)","Children (8-12)","Teens (13-17)","Young Adult (18-25)","Adult (26-40)","Adult (41-60)","60+","Mixed ages"], recommended:null, freeTextPrompt:true, freeTextLabel:"I'll type the exact ages", freeTextPlaceholder:"e.g. 29-32"} },
+  { pattern: /how many students|number of students/i, choices: {mode:"single", options:["1 (private lesson)","2-3","4-6","7-10","11-15","16-20","20+"], recommended:null, freeTextPrompt:true, freeTextLabel:"I'll type the exact number", freeTextPlaceholder:"e.g. 14"} },
+  { pattern: /occupations?|backgrounds?.*(job|work)|what do (they|your students) do/i, choices: {mode:"multi", options:["Working professionals","University students","Housewife/Househusband","Unemployed/Job-seeking","Retired","K-12 students","Mixed/Other","Other (specify)","All"]} },
+  { pattern: /time of (the )?class|what time|morning,?\s*evening/i, choices: {mode:"single", options:["Early Morning","Morning","Midday","Afternoon","Evening","Late Evening/Night"], recommended:null} },
+  { pattern: /which template|recommend.*template|presentation practice production/i, choices: {mode:"single", options:["Presentation Practice Production (PPP)","Test Teach Test (TTT)","Task-Based Learning (TBL)","Receptive Skills","Productive Skills"], recommended:null} },
+  { pattern: /what field|what industry/i, choices: {mode:"single", options:["Business English","Medical English","Legal English","Aviation English","IT & Technology","Engineering","Hospitality & Tourism","Finance & Banking","Maritime English","Military English","Academic Research","Customer Service","Other (specify)"], recommended:null, freeTextTrigger:"Other (specify)", freeTextPlaceholder:"What field?"} },
+  { pattern: /academic (context|focus|skill)/i, choices: {mode:"single", options:["Essay Writing","Lecture Comprehension","Seminar Discussion","Academic Reading","Research & Citation Skills","Presentation Skills","Note-Taking","Critical Thinking & Argumentation","Exam/Dissertation Writing","Other (specify)"], recommended:null, freeTextTrigger:"Other (specify)", freeTextPlaceholder:"What academic focus?"} },
+  { pattern: /scope|how much of|which (part|aspect)|limit.*(grammar|lesson)|cover (the )?whole/i, choices: {mode:"single", options:["Affirmative only","Affirmative + Negative","Full form (affirmative, negative, question)","Specific subset (specify)","All common uses","Other (specify)"], recommended:null, freeTextTrigger:"Other (specify)", freeTextPlaceholder:"What scope?"} },
+  { pattern: /register|formal.*informal|which function|what function/i, choices: {mode:"single", options:["Formal register","Informal/casual register","Both formal and informal","Specific situation (specify)","Other (specify)"], recommended:null, freeTextTrigger:"Other (specify)", freeTextPlaceholder:"Specify"} }
+];
+
+function detectMissingChoices(text){
+  for(const entry of KNOWN_QUESTION_FALLBACKS){
+    if(entry.pattern.test(text)) return entry.choices;
+  }
+  return null;
+}
+
+async function handleSend(){
+  const text = input.value.trim();
+  const image = pendingImage;
+  if(!text && !image) return;
+  input.value = '';
+  input.style.height = 'auto';
+  pendingImage = null;
+  renderImagePreview();
+
+  const welcomeEl = thread.querySelector('.welcome');
+  if(welcomeEl) welcomeEl.remove();
+
+  let userContent;
+  if(image){
+    const blocks = [];
+    blocks.push({
+      type: 'image',
+      source: { type: 'base64', media_type: image.mediaType, data: image.base64Data }
+    });
+    if(text) blocks.push({ type: 'text', text: text });
+    userContent = blocks;
+  } else {
+    userContent = text;
+  }
+
+  messages.push({role:'user', content: userContent});
+  addUserBubble(text, image ? image.dataUrl : null);
+  updateRail(guessStage());
+  sendBtn.disabled = true;
+  addTypingIndicator();
+
+  try{
+    const reply = await callClaude();
+    removeTypingIndicator();
+
+    const plan = extractPlan(reply);
+    if(plan){
+      const introText = stripPlanTag(reply);
+      if(introText) addMentorBubble(introText);
+      renderPlanDoc(plan);
+      planGenerated = true;
+      updateRail('done');
+      messages.push({role:'assistant', content:reply});
+    } else {
+      const choices = extractChoices(reply);
+      const dropdown = extractDropdown(reply);
+      const dualChoices = extractDualChoices(reply);
+      const sentenceBuilder = extractSentenceBuilder(reply);
+      const hasChoicesTag = /<CHOICES>/.test(reply);
+      const hasDropdownTag = /<DROPDOWN>/.test(reply);
+      const hasDualTag = /<DUALCHOICES>/.test(reply);
+      const hasSentenceTag = /<SENTENCEBUILDER>/.test(reply);
+
+      if(sentenceBuilder){
+        addMentorBubbleWithSentenceBuilder(reply, sentenceBuilder);
+      } else if(dualChoices){
+        addMentorBubbleWithDualChoices(reply, dualChoices);
+      } else if(choices){
+        addMentorBubbleWithChoices(reply, choices);
+      } else if(dropdown){
+        addMentorBubbleWithDropdown(reply, dropdown);
+      } else if(hasChoicesTag || hasDropdownTag || hasDualTag || hasSentenceTag){
+        // Tag was present but couldn't be parsed even after repair —
+        // show the clean text and let the teacher just type their answer.
+        const cleanText = stripSentenceBuilderTag(stripDualChoicesTag(stripDropdownTag(stripChoicesTag(reply))));
+        addMentorBubble(cleanText || "Sorry, that didn't come through cleanly — could you just type your answer?");
+      } else {
+        // No tag at all — check if this looks like one of our known
+        // chip-driven questions and inject the right options client-side.
+        const fallbackChoices = detectMissingChoices(reply);
+        if(fallbackChoices){
+          addMentorBubbleWithChoices(reply, fallbackChoices);
+        } else {
+          addMentorBubble(reply);
+        }
+      }
+      messages.push({role:'assistant', content:reply});
+      updateRail(guessStage());
+    }
+  }catch(err){
+    removeTypingIndicator();
+    addMentorBubble("Something went wrong reaching the planning service. Mind trying that again?");
+    console.error(err);
+  }finally{
+    sendBtn.disabled = false;
+    input.focus();
+  }
+}
+
+input.addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    handleSend();
+  }
+});
+input.addEventListener('input', ()=>{
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 140) + 'px';
+});
+sendBtn.addEventListener('click', handleSend);
+
+newSessionBtn.addEventListener('click', ()=>{
+  messages = [];
+  planGenerated = false;
+  input.placeholder = 'Type your reply…';
+  pendingImage = null;
+  renderImagePreview();
+  updateRail('topic');
+  renderWelcome();
+});
+
+// --- Attach (+) menu and image upload/camera handling ---
+
+attachBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  attachMenu.classList.toggle('open');
+});
+
+document.addEventListener('click', (e)=>{
+  if(!attachMenu.contains(e.target) && e.target !== attachBtn){
+    attachMenu.classList.remove('open');
+  }
+});
+
+uploadFileBtn.addEventListener('click', ()=>{
+  attachMenu.classList.remove('open');
+  fileInput.click();
+});
+
+takePhotoBtn.addEventListener('click', ()=>{
+  attachMenu.classList.remove('open');
+  cameraInput.click();
+});
+
+function fileToBase64(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=> resolve(reader.result); // data URL
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handleImageFile(file){
+  if(!file || !file.type.startsWith('image/')) return;
+  try{
+    const dataUrl = await fileToBase64(file);
+    const base64Data = dataUrl.split(',')[1];
+    pendingImage = { mediaType: file.type, base64Data, dataUrl };
+    renderImagePreview();
+  }catch(err){
+    console.error('Image read failed', err);
+  }
+}
+
+fileInput.addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  handleImageFile(file);
+  fileInput.value = '';
+});
+
+cameraInput.addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  handleImageFile(file);
+  cameraInput.value = '';
+});
+
+function renderImagePreview(){
+  if(!pendingImage){
+    imagePreviewRow.classList.remove('has-image');
+    imagePreviewRow.innerHTML = '';
+    return;
+  }
+  imagePreviewRow.classList.add('has-image');
+  imagePreviewRow.innerHTML = `
+    <div class="image-preview-chip">
+      <img src="${pendingImage.dataUrl}" alt="Attached image">
+      <button type="button" class="remove-image" aria-label="Remove image">×</button>
+    </div>
+  `;
+  imagePreviewRow.querySelector('.remove-image').addEventListener('click', ()=>{
+    pendingImage = null;
+    renderImagePreview();
+  });
+}
+
+renderWelcome();
+updateRail('topic');
+</script>
+
+
+
+</body></html>
