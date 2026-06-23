@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)file:///C:/Users/kevin/Downloads/esl_copilot_lesson_planner_19.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>ESL Copilot — Lesson Planner</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;background:#0d1b2e;color:#fff;overflow:hidden;}
+
+/* ── TOPBAR ─────────────────────────────────── */
+#topbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:52px;
+  background:rgba(13,27,46,.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;
+}
+.tb-left{display:flex;align-items:center;gap:10px;}
+.tb-logo{height:28px;display:block;}
+.tb-name{font-size:14px;font-weight:600;color:#21c4d6;letter-spacing:-.01em;}
+.tb-by{font-size:10px;color:rgba(255,255,255,.28);}
+.tb-right{display:flex;align-items:center;gap:14px;}
+.progress-strip{display:flex;gap:5px;}
+.ps-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .3s;}
+.ps-dot.done{background:#21c4d6;}
+.ps-dot.active{background:white;box-shadow:0 0 5px rgba(255,255,255,.5);}
+.btn-new{background:rgba(33,196,214,.12);border:1px solid rgba(33,196,214,.25);color:#21c4d6;font-size:12px;font-weight:600;border-radius:8px;padding:5px 13px;cursor:pointer;font-family:inherit;transition:.15s;}
+.btn-new:hover{background:rgba(33,196,214,.22);}
+
+/* ── LAYOUT ─────────────────────────────────── */
+#app{
+  position:fixed;top:52px;left:0;right:0;bottom:80px;
+  overflow-y:auto;
+  display:flex;flex-direction:column;
+  align-items:center;
+}
+#screen{
+  width:100%;max-width:520px;
+  padding:28px 24px 16px;
+  display:flex;flex-direction:column;
+  gap:0;
+  min-height:100%;
+}
+
+/* ── FOOTER ─────────────────────────────────── */
+#footer{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(13,27,46,.97);
+  border-top:1px solid rgba(255,255,255,.07);
+  padding:14px 24px;
+  display:flex;flex-direction:column;gap:8px;
+  align-items:center;
+}
+#footer-inner{width:100%;max-width:520px;display:flex;flex-direction:column;gap:8px;}
+#cont-btn{
+  width:100%;background:#21c4d6;border:none;border-radius:14px;
+  padding:16px;color:#0d1b2e;font-size:15px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:opacity .15s,transform .1s;
+}
+#cont-btn:active{transform:scale(.99);}
+#cont-btn:disabled{opacity:.28;cursor:not-allowed;}
+#skip-btn{
+  width:100%;background:none;border:none;
+  color:rgba(255,255,255,.35);font-size:13px;
+  cursor:pointer;font-family:inherit;padding:4px;
+  display:none;
+}
+#skip-btn:hover{color:rgba(255,255,255,.6);}
+
+/* ── WELCOME ─────────────────────────────────── */
+.welcome{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;
+  gap:20px;padding:20px 0 40px;flex:1;
+}
+.welcome h1{font-size:26px;font-weight:700;line-height:1.2;letter-spacing:-.03em;color:white;}
+.welcome h1 span{color:#21c4d6;}
+.welcome p{font-size:15px;color:rgba(255,255,255,.45);line-height:1.65;max-width:380px;}
+.welcome-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:420px;}
+.wcard{
+  background:rgba(255,255,255,.05);
+  border:1.5px solid rgba(255,255,255,.1);
+  border-radius:16px;padding:20px 16px;
+  cursor:pointer;text-align:left;
+  transition:all .2s;font-family:inherit;
+  -webkit-appearance:none;
+}
+.wcard:hover{background:rgba(255,255,255,.09);border-color:rgba(33,196,214,.4);transform:translateY(-2px);}
+.wcard-icon{font-size:22px;margin-bottom:8px;}
+.wcard-title{font-size:13.5px;font-weight:600;color:white;margin-bottom:4px;}
+.wcard-desc{font-size:11.5px;color:rgba(255,255,255,.38);line-height:1.5;}
+
+/* ── HISTORY (last 2 answers) ─────────────────── */
+.history{display:flex;flex-direction:column;gap:7px;margin-bottom:22px;}
+.hist-row{
+  display:flex;align-items:center;gap:12px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:11px;padding:10px 14px;
+}
+.hist-step{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.28);min-width:72px;flex:none;}
+.hist-val{font-size:13px;font-weight:500;color:rgba(255,255,255,.65);flex:1;}
+.hist-check{width:17px;height:17px;border-radius:50%;background:#21c4d6;flex:none;display:flex;align-items:center;justify-content:center;}
+.hist-check::after{content:"✓";font-size:9px;color:#0d1b2e;font-weight:800;}
+
+/* ── QUESTION ─────────────────────────────────── */
+.q-wrap{margin-bottom:18px;}
+.q-comment{font-size:14px;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:10px;}
+.q-title{font-size:20px;font-weight:600;color:white;letter-spacing:-.02em;line-height:1.25;}
+.q-sub{font-size:13.5px;color:rgba(255,255,255,.38);margin-top:5px;line-height:1.5;}
+
+/* ── FULL-WIDTH OPTIONS ───────────────────────── */
+.options{display:flex;flex-direction:column;gap:9px;margin-bottom:10px;}
+.opt{
+  width:100%;background:rgba(255,255,255,.06);
+  border:1.5px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:15px 18px;
+  color:rgba(255,255,255,.82);
+  font-size:14.5px;font-weight:500;
+  text-align:left;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .15s,border-color .15s;
+  font-family:inherit;-webkit-appearance:none;
+}
+.opt:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);}
+.opt.sel,.opt.sel:hover{
+  background:rgba(33,196,214,.16) !important;
+  border-color:rgba(33,196,214,.55) !important;
+  color:#21c4d6 !important;
+}
+.opt-inner{display:flex;flex-direction:column;gap:2px;}
+.opt-sub{font-size:12px;color:rgba(255,255,255,.32);font-weight:400;margin-top:2px;}
+.opt.sel .opt-sub{color:rgba(33,196,214,.55);}
+.opt-check{
+  width:20px;height:20px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.2);
+  flex:none;display:flex;align-items:center;justify-content:center;
+  transition:.15s;font-size:10px;color:transparent;
+}
+.opt.sel .opt-check{background:#21c4d6;border-color:#21c4d6;color:#0d1b2e;font-weight:800;}
+
+/* ── DROPDOWN ─────────────────────────────────── */
+.dd-wrap{margin-bottom:10px;}
+/* Custom dropdown — fully dark themed */
+.dd-trigger{
+  width:100%;
+  background:rgba(255,255,255,.06);
+  border:1.5px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  padding:15px 44px 15px 18px;
+  color:rgba(255,255,255,.5);font-size:14.5px;font-weight:500;
+  font-family:inherit;cursor:pointer;text-align:left;
+  position:relative;transition:border-color .15s;
+  -webkit-appearance:none;
+}
+.dd-trigger.has-value{color:white;}
+.dd-trigger:hover,.dd-trigger.open{border-color:rgba(33,196,214,.4);}
+.dd-trigger::after{
+  content:"";position:absolute;right:16px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' stroke-linecap='round' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-size:contain;
+  transition:transform .2s;
+}
+.dd-trigger.open::after{transform:translateY(-50%) rotate(180deg);}
+.dd-list{
+  position:absolute;left:0;right:0;
+  top:calc(100% + 6px);
+  background:#162338;
+  border:1.5px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  max-height:220px;overflow-y:auto;
+  z-index:200;
+  display:none;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+}
+.dd-list.open{display:block;}
+.dd-list::-webkit-scrollbar{width:4px;}
+.dd-list::-webkit-scrollbar-track{background:transparent;}
+.dd-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px;}
+.dd-item{
+  padding:13px 18px;
+  font-size:14px;font-weight:500;
+  color:rgba(255,255,255,.7);
+  cursor:pointer;transition:background .12s,color .12s;
+}
+.dd-item:first-child{border-radius:12px 12px 0 0;}
+.dd-item:last-child{border-radius:0 0 12px 12px;}
+.dd-item:hover{background:rgba(255,255,255,.07);color:white;}
+.dd-item.selected{color:#21c4d6;background:rgba(33,196,214,.1);}
+.dd-container{position:relative;margin-bottom:10px;}
+.dd-use-btn{
+  width:100%;margin-top:9px;
+  background:#21c4d6;border:none;border-radius:12px;
+  padding:14px;color:#0d1b2e;font-size:14px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:opacity .15s;
+}
+.dd-use-btn:hover{opacity:.88;}
+.dd-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;}
+.dd-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(33,196,214,.14);border:1px solid rgba(33,196,214,.3);
+  border-radius:20px;padding:5px 13px;
+  font-size:13px;color:#21c4d6;font-weight:500;
+}
+.dd-tag-rm{background:none;border:none;color:rgba(33,196,214,.5);cursor:pointer;font-size:15px;line-height:1;padding:0;font-family:inherit;}
+.dd-tag-rm:hover{color:#21c4d6;}
+
+/* ── MULTI-DONE ───────────────────────────────── */
+.multi-done{display:flex;align-items:center;gap:12px;margin-top:10px;}
+.done-btn{
+  background:#21c4d6;border:none;border-radius:10px;
+  padding:11px 22px;color:#0d1b2e;font-size:13.5px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:opacity .15s;
+}
+.done-btn:disabled{opacity:.28;cursor:not-allowed;}
+.done-hint{font-size:12.5px;color:rgba(255,255,255,.3);font-style:italic;}
+
+/* ── TEXT INPUT ───────────────────────────────── */
+.text-area{
+  width:100%;
+  background:rgba(255,255,255,.06);
+  border:1.5px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:15px 18px;
+  color:white;font-size:14.5px;font-family:inherit;
+  outline:none;resize:none;transition:border-color .15s;
+  margin-bottom:10px;
+}
+.text-area::placeholder{color:rgba(255,255,255,.28);}
+.text-area:focus{border-color:rgba(33,196,214,.45);}
+
+/* ── DUAL CHOICES ─────────────────────────────── */
+.dual-block{display:flex;flex-direction:column;gap:16px;margin-bottom:10px;}
+.dual-group{display:flex;flex-direction:column;gap:8px;}
+.dual-label{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:6px;}
+
+/* ── SENTENCE BUILDER ─────────────────────────── */
+.sb-block{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
+.sb-row{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:12px 14px;
+  display:flex;flex-wrap:wrap;align-items:center;gap:7px;
+  font-size:14px;color:rgba(255,255,255,.6);line-height:2;
+}
+.sb-slot{
+  background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);
+  border-radius:8px;padding:5px 28px 5px 11px;
+  color:white;font-size:13.5px;font-family:inherit;
+  outline:none;cursor:pointer;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='rgba(255,255,255,0.35)' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 7px center;
+  transition:border-color .15s;
+}
+.sb-slot:focus{border-color:rgba(33,196,214,.45);}
+.sb-slot option{background:#162338;}
+.sb-add{font-size:13px;font-weight:600;color:#21c4d6;background:none;border:none;cursor:pointer;font-family:inherit;padding:2px 0;}
+.sb-add:hover{text-decoration:underline;}
+
+/* ── PART DIVIDER ─────────────────────────────── */
+.part-div-wrap{display:flex;flex-direction:column;gap:10px;margin:6px 0 20px;}
+.part-div-line{display:flex;align-items:center;gap:12px;}
+.part-div-line::before,.part-div-line::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.07);}
+.part-div-badge{font-size:11px;font-weight:600;color:#21c4d6;letter-spacing:.05em;background:rgba(33,196,214,.1);border:1px solid rgba(33,196,214,.2);border-radius:20px;padding:4px 14px;white-space:nowrap;}
+.part-div-summary{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:12px 15px;font-size:13.5px;color:rgba(255,255,255,.55);line-height:1.65;}
+
+/* ── DRAFT WAIT ───────────────────────────────── */
+.draft-wait{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;
+  gap:20px;padding:60px 0;flex:1;
+}
+.draft-spinner{width:52px;height:52px;border-radius:50%;border:3px solid rgba(33,196,214,.18);border-top-color:#21c4d6;animation:spin 1.1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.draft-title{font-size:20px;font-weight:600;color:white;letter-spacing:-.01em;}
+.draft-sub{font-size:14px;color:rgba(255,255,255,.38);line-height:1.6;max-width:300px;}
+.draft-bar{width:220px;height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;}
+.draft-fill{height:100%;background:#21c4d6;border-radius:2px;animation:barslide 2.2s ease-in-out infinite;}
+@keyframes barslide{0%{width:8%;margin-left:0;}50%{width:42%;margin-left:32%;}100%{width:8%;margin-left:85%;}}
+
+/* ── PLAN CARD ────────────────────────────────── */
+.plan-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:16px;overflow:hidden;margin-bottom:20px;}
+.plan-head{background:rgba(33,196,214,.1);border-bottom:1px solid rgba(33,196,214,.18);padding:16px 20px;}
+.plan-head-title{font-size:16px;font-weight:700;color:white;margin-bottom:3px;letter-spacing:-.01em;}
+.plan-head-meta{font-size:12px;color:rgba(255,255,255,.38);line-height:1.5;}
+.plan-sec{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.05);}
+.plan-sec:last-of-type{border-bottom:none;}
+.plan-sec-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#21c4d6;margin-bottom:7px;}
+.plan-sec-body{font-size:13.5px;line-height:1.7;color:rgba(255,255,255,.7);}
+.plan-sec-body ul{padding-left:16px;}
+.plan-sec-body li{margin-bottom:4px;}
+.stage-row{display:grid;grid-template-columns:54px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.stage-row:last-child{border-bottom:none;}
+.stage-time{font-size:11px;font-weight:600;color:#21c4d6;padding-top:2px;font-family:"SF Mono","Fira Code",monospace;}
+.stage-name{font-size:13.5px;font-weight:600;color:rgba(255,255,255,.88);}
+.stage-aim{font-size:12px;color:rgba(255,255,255,.38);margin:2px 0 7px;font-style:italic;}
+.stage-steps{font-size:13px;color:rgba(255,255,255,.62);padding-left:14px;line-height:1.65;}
+.plan-actions{padding:14px 20px;display:flex;gap:10px;border-top:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.15);}
+.plan-dl{background:#21c4d6;color:#0d1b2e;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;position:relative;}
+.plan-dl:hover{opacity:.9;}
+.plan-rev{background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.55);border-radius:10px;padding:10px 18px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
+.plan-rev:hover{border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.8);}
+.fmt-menu{position:absolute;bottom:calc(100% + 8px);left:0;background:#162338;border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:6px;min-width:190px;z-index:50;display:none;flex-direction:column;}
+.fmt-menu.open{display:flex;}
+.fmt-menu button{background:none;border:none;color:rgba(255,255,255,.75);font-size:13px;text-align:left;padding:9px 12px;border-radius:7px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:8px;}
+.fmt-menu button:hover{background:rgba(255,255,255,.07);color:white;}
+.dl-wrap{position:relative;}
+
+/* ── UPLOAD ───────────────────────────────────── */
+.upload-zone{border:2px dashed rgba(255,255,255,.15);border-radius:14px;padding:28px;text-align:center;cursor:pointer;transition:.15s;margin-bottom:12px;}
+.upload-zone:hover{border-color:rgba(33,196,214,.4);background:rgba(33,196,214,.04);}
+.upload-zone-icon{font-size:28px;margin-bottom:8px;}
+.upload-zone-text{font-size:14px;color:rgba(255,255,255,.55);}
+.upload-zone-sub{font-size:12px;color:rgba(255,255,255,.28);margin-top:3px;}
+.upload-thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.upload-thumb{width:60px;height:60px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.1);position:relative;flex:none;}
+.upload-thumb img{width:100%;height:100%;object-fit:cover;}
+.upload-thumb.pdf{display:flex;align-items:center;justify-content:center;background:rgba(33,196,214,.1);font-size:22px;}
+.upload-thumb .rm{position:absolute;top:2px;right:2px;width:14px;height:14px;background:rgba(10,18,34,.85);border:none;border-radius:50%;color:white;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;}
+
+/* ── TYPING ───────────────────────────────────── */
+.typing{display:flex;gap:5px;padding:6px 0;}
+.typing span{width:7px;height:7px;border-radius:50%;background:#21c4d6;opacity:.5;animation:tb .9s infinite;}
+.typing span:nth-child(2){animation-delay:.2s;}
+.typing span:nth-child(3){animation-delay:.4s;}
+@keyframes tb{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-5px);}}
+
+/* ── USER BUBBLE ──────────────────────────────── */
+.user-bubble{
+  align-self:flex-end;
+  background:rgba(33,196,214,.13);
+  border:1px solid rgba(33,196,214,.22);
+  border-radius:14px 14px 4px 14px;
+  padding:11px 15px;
+  font-size:14px;color:rgba(255,255,255,.85);
+  line-height:1.55;max-width:85%;
+  margin-bottom:16px;
+}
+.msg-image{max-width:180px;border-radius:8px;border:1px solid rgba(255,255,255,.1);display:block;margin-top:7px;}
+.msg-pdf{display:inline-flex;align-items:center;gap:5px;margin-top:6px;background:rgba(255,255,255,.07);border-radius:7px;padding:4px 10px;font-size:12px;color:rgba(255,255,255,.55);}
+
+@media(max-width:560px){
+  #screen{padding:20px 16px 16px;}
+  #footer{padding:12px 16px;}
+  .welcome-cards{grid-template-columns:1fr;}
+  .opt{font-size:14px;padding:14px 16px;}
+}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div class="tb-left">
+    <img src="data:image/png;base64,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" class="tb-logo" alt="">
+    <div>
+      <div class="tb-name">ESL Copilot</div>
+      <div class="tb-by">by LAT English</div>
+    </div>
+  </div>
+  <div class="tb-right">
+    <div class="progress-strip" id="progressStrip">
+      <div class="ps-dot active" data-stage="general"></div>
+      <div class="ps-dot" data-stage="procedure"></div>
+      <div class="ps-dot" data-stage="profile"></div>
+      <div class="ps-dot" data-stage="draft"></div>
+      <div class="ps-dot" data-stage="done"></div>
+    </div>
+    <button class="btn-new" id="newBtn">+ New</button>
+  </div>
+</div>
+
+<div id="app">
+  <div id="screen">
+    <div class="welcome">
+      <div>
+        <h1>Create your <span>lesson plan</span><br>with AI</h1>
+      </div>
+      <p>I'll guide you through the same planning process used by CELTA teacher trainers — one question at a time.</p>
+      <div class="welcome-cards">
+        <button class="wcard" id="stepBtn">
+          <div class="wcard-icon">📋</div>
+          <div class="wcard-title">Build step by step</div>
+          <div class="wcard-desc">One question at a time, fully guided</div>
+        </button>
+        <button class="wcard" id="uploadBtn">
+          <div class="wcard-icon">📄</div>
+          <div class="wcard-title">Upload material</div>
+          <div class="wcard-desc">I'll read your pages and fill in what I can</div>
+        </button>
+      </div>
+    </div></div>
+</div>
+
+<div id="footer" style="display:none">
+  <div id="footer-inner">
+    <button id="cont-btn" disabled="">Continue →</button>
+    <button id="skip-btn">Skip</button>
+  </div>
+</div>
+
+<!-- hidden file inputs -->
+<input type="file" id="fileInput" accept="image/*" style="display:none">
+<input type="file" id="pdfInput" accept="application/pdf" style="display:none">
+<input type="file" id="multiInput" accept="image/*,application/pdf" style="display:none">
+
+<script>
+'use strict';
+
+// ── CONFIG ────────────────────────────────────────────────────────────────
+const API = "https://puqtuupiepckkuzjdris.supabase.co/functions/v1/claude-proxy-stagecraft";
+const EXPORT_API = "https://puqtuupiepckkuzjdris.supabase.co/functions/v1/stagecraft-export";
+const KEY = "sb_publishable_L4vbkmxgDpIqoVjeb3o0hA_kHvwaVGZ";
+
+const SYSTEM_PROMPT = `You are a CELTA/TKT-trained ESL lesson planning mentor built into ESL Copilot. You interview teachers one question at a time — like a TP tutor — to gather everything needed for a complete, staged lesson plan. You never dump multiple questions in one message. You are warm, precise, and direct. You never say "Great!" or use filler praise.
+
+## Interview style
+- ONE question per message, always. No exceptions.
+- Lead with a brief comment on what the teacher just said (1–2 sentences max), then your next question on a new line.
+- Always emit the appropriate tag (CHOICES, DROPDOWN, DUALCHOICES, SENTENCEBUILDER) for structured questions — never ask chip questions as plain text.
+- If the teacher says "just generate something", use sensible defaults (ESL, Intermediate, PPP, mixed skills, working adults) and flag them.
+
+## THREE-PART STRUCTURE
+
+**PART 1 — GENERAL** (ask in this order):
+1. Class type → CHOICES: ESL / ESP / EAP / Exam Prep. If ESP → CHOICES for field. If EAP → CHOICES for focus. If Exam Prep → DROPDOWN for exam.
+2. Context → DROPDOWN (vocabulary/context topic list)
+3. Main Aim → DUALCHOICES: Skills row (Listening, Speaking, Reading, Writing, All) + Language Area row (Vocabulary, Grammar, Function, All)
+4. Subsidiary Aim → DUALCHOICES same rows + None option
+5. Topic/target language: If Grammar → DROPDOWN grammar list + mandatory GRAMMARSCOPE follow-up. If Vocabulary → DROPDOWN vocab list + mandatory VOCABSCOPE follow-up. If Function → DROPDOWN function list + FUNCTIONSCOPE follow-up. If skills only → free text.
+6. Level → CHOICES: Literacy / Beginner / Elementary / Pre-Intermediate / Intermediate / Upper-Intermediate / Advanced / Mixed / K-12 grade (free text escape)
+7. Lesson length (free text, default 45-60 min)
+8. Template → CHOICES with your recommendation marked: PPP / TTT / TBL / Receptive Skills / Productive Skills. PPP = new language items; TTT = partial prior knowledge; TBL = task-based; Receptive = reading/listening text focus; Productive = speaking/writing output focus.
+
+→ Emit PARTDIVIDER (partNumber:1, partLabel:"General") with a concise summary, then immediately ask the first Part 2 question.
+
+**PART 2 — PROCEDURE** (every stage, in template order):
+For each stage ask what material/content goes there, phrased specifically for that stage's purpose, then end with CHOICES: ["I'll type it now", "Upload an image", "Upload a PDF", "Create it for me"] with uploadTrigger and uploadTriggerPdf set. For speaking/warmer stages without visual material, offer only ["I'll type it now", "Create it for me"]. For listening stages: first ask the audio type (Conversation/Discussion/Argument/Monologue/Interview/Announcement/Other), then ask for the transcript/material.
+
+PPP stage order and focus:
+1. Warmer/Lead-in — what lead-in question, image, or short activity?
+2. Exposure — what text or situation exposes students to the target language?
+3. Highlighting — how will you draw attention to the target language in the text?
+4. Clarification — what CCQs or diagrams will you use to clarify MFP?
+5. Controlled Practice — what exercise (gap-fill, matching, transformation)?
+6. Semi-Controlled Practice — what guided activity?
+7. Free Practice — what communicative task or prompt?
+
+TTT stage order: Diagnostic Task → Language Analysis/Feedback → Teach (clarification) → Practice Task → Freer Practice
+TBL stage order: Pre-Task → Task → Planning → Report → Language Focus → Practice
+Receptive Skills (Reading) order: Pre-Reading → While-Reading #1 (gist) → While-Reading #2 (detail) → Post-Reading
+Receptive Skills (Listening): Pre-Listening → While-Listening #1 → While-Listening #2 → Post-Listening
+Productive Skills (Speaking): Lead-in → Language Preparation → Task Setup → Speaking Task → Feedback
+Productive Skills (Writing): Lead-in → Model Analysis → Planning → Writing Task → Peer Review
+
+→ Emit PARTDIVIDER (partNumber:2, partLabel:"Procedure") with a stage-by-stage summary, then immediately ask Part 3 first question.
+
+**PART 3 — PROFILE** (ask in this order):
+1. Number of students → CHOICES: 1 (private lesson) / 2-3 / 4-6 / 7-10 / 11-15 / 16-20 / 20+
+2. Age range → CHOICES: Pre-K (0-4) / Young Learners (5-7) / Children (8-12) / Teens (13-17) / Young Adult (18-25) / Adult (26-40) / Adult (41-60) / 60+ / Mixed ages
+3. Occupations → CHOICES multi-select: Working professionals / University students / Housewife/Househusband / Unemployed/Job-seeking / Retired / K-12 students / Mixed / All
+4. Time of class → CHOICES: Early Morning / Morning / Midday / Afternoon / Evening / Late Evening/Night
+5. Mother tongue(s) → DROPDOWN multi-select
+6. Group dynamics — free text (note pedagogical implications yourself: shared L1 risk, class size effects, mixed levels etc.)
+7. Timetable position → CHOICES: Middle of course / First lesson / Last lesson / One-off lesson
+   - Middle: ask previous lessons SENTENCEBUILDER then upcoming SENTENCEBUILDER
+   - First lesson: skip previous, ask upcoming only
+   - Last lesson: ask previous only, skip upcoming
+   - One-off: skip both, note in plan
+
+Then draft the plan immediately — no PARTDIVIDER after Part 3.
+
+## FAST PATH (upload existing material)
+If the first user message contains uploaded images/PDFs with a request to read the material and fill in the plan:
+1. Read everything. Extract: topic, scope, level, aims, template, per-stage content.
+2. Present a clear summary (what you found, what you're inferring, what's missing).
+3. Ask the teacher to confirm or correct in one open question.
+4. Once confirmed, emit a single PARTDIVIDER (partNumber:2, partLabel:"General & Procedure") then go straight to Part 3.
+
+## TAG PROTOCOLS
+
+**CHOICES** — emit after your question text, on its own line:
+<CHOICES>{"mode":"single","options":[...],"recommended":null}</CHOICES>
+For multi-select: "mode":"multi" — include an "All" option.
+For upload-trigger chips: add "uploadTrigger":"Upload an image" and/or "uploadTriggerPdf":"Upload a PDF".
+For free-text escape: add "freeTextTrigger":"Other (specify)" and "freeTextPlaceholder":"...".
+
+**DUALCHOICES** — two chip groups shown together:
+<DUALCHOICES>{"groups":[{"label":"Skills","options":["Listening","Speaking","Reading","Writing","All"]},{"label":"Language Area","options":["Vocabulary","Grammar","Function","All"]}]}</DUALCHOICES>
+
+**DROPDOWN** — for long lists (grammar, vocab, functions, context, mother tongue, exams):
+<DROPDOWN>{"options":[...],"placeholder":"Select...","mode":"single"}</DROPDOWN>
+For mother tongue: "mode":"multi".
+
+**SENTENCEBUILDER** — for timetable fit:
+<SENTENCEBUILDER>{"template":"They covered ___ in the context of ___","slots":[{"options":["Listening","Speaking","Reading","Writing","Vocabulary","Grammar","Function"]},{"dropdown":true,"list":"context_topics"}],"allowMultiple":true}</SENTENCEBUILDER>
+
+**PARTDIVIDER** — marks end of a part, can be followed by the next question in the same message:
+<PARTDIVIDER>{"partNumber":1,"partLabel":"General","summary":"Markdown summary of what was established."}</PARTDIVIDER>
+
+## SCOPE PROTOCOLS
+After every grammar point selection: ask which specific scope using CHOICES. Examples: Past Simple → ["Regular verbs only","Irregular verbs only","Both regular and irregular","Negative forms only","Question forms only","Full range"]. Be specific to the grammar point chosen.
+After every vocabulary topic selection: ask scope using CHOICES. Examples: Jobs → ["Common job titles only","Jobs + duties/responsibilities","Jobs + workplace vocabulary","Specific field (specify)"]. Be specific to the topic.
+After every function selection: ask register using CHOICES: ["Formal","Informal/Casual","Both formal and informal","Specific situation (specify)"].
+
+## REFERENCE LISTS (use for DROPDOWN options)
+Grammar: Present Simple, Present Continuous, Present Perfect, Present Perfect Continuous, Past Simple, Past Continuous, Past Perfect, Past Perfect Continuous, Future Simple (will), Going to future, Present Simple for future, Future Continuous, Future Perfect, Zero Conditional, First Conditional, Second Conditional, Third Conditional, Mixed Conditionals, Passive Voice (Present Simple), Passive Voice (Past Simple), Passive Voice (other tenses), Reported Speech, Modal Verbs (ability), Modal Verbs (permission), Modal Verbs (obligation), Modal Verbs (deduction), Relative Clauses (defining), Relative Clauses (non-defining), Gerunds and Infinitives, Articles (a/an/the), Comparatives and Superlatives, Question Formation, Phrasal Verbs
+
+Vocabulary/Context topics: Jobs & Work, Food & Drink, Travel & Transport, Health & Medicine, Technology, Environment & Nature, Family & Relationships, Education, Money & Finance, Shopping & Consumer Life, Home & Living, Sport & Fitness, Entertainment & Media, Culture & Society, Crime & Justice, Politics & Government, Science & Innovation, Art & Creativity, Celebrations & Traditions, Phrasal Verbs
+
+Functions: Asking permission, Making requests, Offering help, Giving advice, Making suggestions, Agreeing, Disagreeing, Apologizing, Complaining, Persuading, Expressing opinions, Expressing feelings, Giving directions, Making arrangements, Asking for information, Giving information, Expressing regret
+
+Mother tongues: Arabic, Chinese (Mandarin), French, German, Hindi, Indonesian, Italian, Japanese, Korean, Persian/Farsi, Polish, Portuguese, Russian, Spanish, Thai, Turkish, Ukrainian, Urdu, Vietnamese, Other (specify)
+
+Exams: IELTS, TOEFL, Cambridge B2 First (FCE), Cambridge C1 Advanced (CAE), Cambridge C2 Proficiency (CPE), Cambridge A2 Key (KET), Cambridge B1 Preliminary (PET), TOEIC, OET, Duolingo English Test, Trinity GESE, Trinity ISE, PTE Academic, Other
+
+ESP fields: Business English, Medical English, Legal English, Aviation English, IT & Tech English, Academic English (EAP), Tourism & Hospitality, Engineering, Finance & Banking, Journalism & Media, Military English, Other
+
+EAP focuses: Essay Writing, Lecture Comprehension, Seminar Discussion, Academic Reading, Academic Vocabulary, Research Skills, Presentation Skills, Note-taking, Citation & Referencing, Other
+
+## LESSON PLAN OUTPUT
+When you have all information from all three parts, produce the plan:
+
+<LESSON_PLAN>
+{
+  "title": "[Topic] – [Level]",
+  "description": "Brief overview sentence.",
+  "materials": ["Material 1 with full citation if coursebook", "Material 2"],
+  "mainAim": "To provide [clarification/practice/development] of [target language with exact scope] in the context of [context].",
+  "subsidiaryAims": "To develop [subsidiary skill/area].",
+  "background": {
+    "classProfile": "CELTA-style narrative paragraph synthesizing number, age, occupations, L1s, dynamics, time of class.",
+    "assumptions": "What Ss already know / can do relevant to this lesson.",
+    "personalAims": "Teacher's own developmental focus for this lesson.",
+    "timetableFit": "Previous lesson(s) → this lesson → next lesson(s). For first lesson: no prior session. For last: no following session. For one-off: standalone."
+  },
+  "anticipatedProblems": [
+    {"problem": "Specific, realistic problem tied to THIS lesson's content and THESE students.", "solution": "Concrete, actionable solution."}
+  ],
+  "procedure": [
+    {"stage": "Stage name", "time": "X min", "aim": "To [verb] [what].", "steps": ["Step 1 with actual content, not placeholders.", "Step 2."]}
+  ]
+}
+</LESSON_PLAN>
+
+Rules: title format "[Topic] – [Level]". Main aim must include exact scope. Class profile must be a flowing CELTA-style paragraph, not bullet points. Anticipated problems must be specific to this lesson, never generic. Procedure steps must reference actual material by name. Timetable fit must reflect the position chosen (first/last/middle/one-off). Never truncate any section.
+
+## Handling uploads
+When an image, PDF, or link arrives mid-interview: read it, decide if it's (a) a teaching material with identifiable content — extract topic/level/exercises and use to skip or pre-fill questions; (b) reference/realia — ask how the teacher wants to use it; (c) ambiguous — say so and ask. For audio/video: you cannot listen to files, ask the teacher to describe the content. Fold whatever you learn into the current interview step.
+`;
+
+// ── REFERENCE DATA ────────────────────────────────────────────────────────
+const GRAMMAR = ["Present Simple","Present Continuous","Present Perfect","Present Perfect Continuous","Past Simple","Past Continuous","Past Perfect","Past Perfect Continuous","Future Simple (will)","Going to future","Future Continuous","Future Perfect","Zero Conditional","First Conditional","Second Conditional","Third Conditional","Mixed Conditionals","Passive Voice (Present Simple)","Passive Voice (Past Simple)","Passive Voice (other tenses)","Reported Speech","Modal Verbs (ability)","Modal Verbs (permission)","Modal Verbs (obligation)","Modal Verbs (deduction)","Relative Clauses (defining)","Relative Clauses (non-defining)","Gerunds and Infinitives","Articles (a/an/the)","Comparatives and Superlatives","Question Formation","Phrasal Verbs"];
+const VOCAB = ["Jobs & Work","Food & Drink","Travel & Transport","Health & Medicine","Technology","Environment & Nature","Family & Relationships","Education","Money & Finance","Shopping & Consumer Life","Home & Living","Sport & Fitness","Entertainment & Media","Culture & Society","Crime & Justice","Politics & Government","Science & Innovation","Art & Creativity","Celebrations & Traditions","Phrasal Verbs"];
+const FUNCTIONS = ["Asking permission","Making requests","Offering help","Giving advice","Making suggestions","Agreeing","Disagreeing","Apologizing","Complaining","Persuading","Expressing opinions","Expressing feelings","Giving directions","Making arrangements","Asking for information","Giving information","Expressing regret"];
+const MOTHER_TONGUES = ["Arabic","Chinese (Mandarin)","French","German","Hindi","Indonesian","Italian","Japanese","Korean","Persian/Farsi","Polish","Portuguese","Russian","Spanish","Thai","Turkish","Ukrainian","Urdu","Vietnamese","Other (specify)"];
+const EXAMS = ["IELTS","TOEFL","Cambridge B2 First (FCE)","Cambridge C1 Advanced (CAE)","Cambridge C2 Proficiency (CPE)","Cambridge A2 Key (KET)","Cambridge B1 Preliminary (PET)","TOEIC","OET","Duolingo English Test","Trinity GESE","Trinity ISE","PTE Academic","Other"];
+const ESP_FIELDS = ["Business English","Medical English","Legal English","Aviation English","IT & Technology","Engineering","Hospitality & Tourism","Finance & Banking","Maritime English","Military English","Academic Research","Customer Service","Other (specify)"];
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let messages = [];
+let currentPart = 1;
+let planGenerated = false;
+let pendingImage = null;
+let pendingPdf = null;
+let pendingMultiUpload = [];
+let recentAnswers = [];
+
+// ── DOM ───────────────────────────────────────────────────────────────────
+const screen = document.getElementById('screen');
+const footer = document.getElementById('footer');
+const contBtn = document.getElementById('cont-btn');
+const skipBtn = document.getElementById('skip-btn');
+const newBtn = document.getElementById('newBtn');
+const fileInput = document.getElementById('fileInput');
+const pdfInput = document.getElementById('pdfInput');
+const multiInput = document.getElementById('multiInput');
+
+// ── UTILITIES ─────────────────────────────────────────────────────────────
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function unesc(s){ return s.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>'); }
+function md(text){
+  return esc(text)
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/\n/g,'<br>');
+}
+function b64(file){
+  return new Promise((res,rej)=>{
+    const r = new FileReader();
+    r.onload = ()=>res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+function scrollBottom(){ document.getElementById('app').scrollTop = 99999; }
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────
+function updateProgress(stage){
+  const order = ['general','procedure','profile','draft','done'];
+  const idx = order.indexOf(stage);
+  document.querySelectorAll('.ps-dot').forEach(d=>{
+    const di = order.indexOf(d.dataset.stage);
+    d.classList.remove('done','active');
+    if(di < idx) d.classList.add('done');
+    else if(di === idx) d.classList.add('active');
+  });
+}
+
+// ── FOOTER CONTROL ────────────────────────────────────────────────────────
+function showFooter(contLabel, contCb, contDisabled, showSkip, skipCb){
+  footer.style.display = '';
+  contBtn.textContent = contLabel || 'Continue →';
+  contBtn.disabled = !!contDisabled;
+  contBtn._cb = contCb || null;
+  contBtn.onclick = ()=>{ if(contBtn._cb && !contBtn.disabled) contBtn._cb(); };
+  skipBtn.style.display = showSkip ? '' : 'none';
+  skipBtn.onclick = skipCb || null;
+}
+function hideFooter(){ footer.style.display = 'none'; }
+
+// ── HISTORY ───────────────────────────────────────────────────────────────
+function recordAnswer(step, val){
+  recentAnswers.push({step, val: String(val).split('|')[0].trim().slice(0, 40)});
+  if(recentAnswers.length > 2) recentAnswers.shift();
+}
+function historyHtml(){
+  if(!recentAnswers.length) return '';
+  return '<div class="history">' +
+    recentAnswers.map(a=>`
+      <div class="hist-row">
+        <div class="hist-step">${esc(a.step)}</div>
+        <div class="hist-val">${esc(a.val)}</div>
+        <div class="hist-check"></div>
+      </div>`).join('') + '</div>';
+}
+
+// ── RENDER HELPERS ────────────────────────────────────────────────────────
+function appendEl(html){
+  const d = document.createElement('div');
+  d.innerHTML = html;
+  while(d.firstChild) screen.appendChild(d.firstChild);
+  scrollBottom();
+}
+function addUserBubble(text, imgSrc, pdfName){
+  const img = imgSrc ? `<img class="msg-image" src="${imgSrc}" alt="">` : '';
+  const pdf = pdfName ? `<div class="msg-pdf">📄 ${esc(pdfName)}</div>` : '';
+  const d = document.createElement('div');
+  d.className = 'user-bubble';
+  d.innerHTML = esc(text) + img + pdf;
+  screen.appendChild(d);
+  scrollBottom();
+}
+function addTyping(){
+  const d = document.createElement('div');
+  d.id = 'typing';
+  if(currentPart >= 3 && !planGenerated){
+    d.className = 'draft-wait';
+    d.innerHTML = `<div class="draft-spinner"></div><div class="draft-title">Building your lesson plan…</div><div class="draft-sub">Writing the full procedure, aims, and anticipated problems — this takes 15–30 seconds.</div><div class="draft-bar"><div class="draft-fill"></div></div>`;
+    updateProgress('draft');
+    hideFooter();
+  } else {
+    d.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
+  }
+  screen.appendChild(d);
+  scrollBottom();
+}
+function removeTyping(){ document.getElementById('typing')?.remove(); }
+
+// ── WELCOME ───────────────────────────────────────────────────────────────
+function renderWelcome(){
+  screen.innerHTML = `
+    <div class="welcome">
+      <div>
+        <h1>Create your <span>lesson plan</span><br>with AI</h1>
+      </div>
+      <p>I'll guide you through the same planning process used by CELTA teacher trainers — one question at a time.</p>
+      <div class="welcome-cards">
+        <button class="wcard" id="stepBtn">
+          <div class="wcard-icon">📋</div>
+          <div class="wcard-title">Build step by step</div>
+          <div class="wcard-desc">One question at a time, fully guided</div>
+        </button>
+        <button class="wcard" id="uploadBtn">
+          <div class="wcard-icon">📄</div>
+          <div class="wcard-title">Upload material</div>
+          <div class="wcard-desc">I'll read your pages and fill in what I can</div>
+        </button>
+      </div>
+    </div>`;
+  hideFooter();
+  document.getElementById('stepBtn').onclick = startInterview;
+  document.getElementById('uploadBtn').onclick = startUpload;
+}
+
+// ── INTERVIEW START ───────────────────────────────────────────────────────
+function startInterview(){
+  screen.innerHTML = '';
+  recentAnswers = [];
+  const first = {
+    mode:'single', style:'tile',
+    options:[
+      "ESL|General English for communication",
+      "ESP|English for a specific profession",
+      "EAP|English for academic study",
+      "Exam Prep|IELTS, TOEFL, Cambridge etc."
+    ]
+  };
+  const msg = `Let\'s start with the kind of class this is.\n<CHOICES>${JSON.stringify(first)}</CHOICES>`;
+  messages.push({role:'assistant', content: msg});
+  renderChoices("Let's start with the kind of class this is.", first);
+}
+
+// ── SEND TO API ───────────────────────────────────────────────────────────
+async function sendMessage(userContent, userText, imgSrc, pdfName){
+  messages.push({role:'user', content: userContent});
+  addUserBubble(userText, imgSrc, pdfName);
+  addTyping();
+  hideFooter();
+  try{
+    const r = await fetch(API, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+KEY},
+      body: JSON.stringify({system:SYSTEM_PROMPT, messages})
+    });
+    if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Request failed '+r.status);}
+    const data = await r.json();
+    const reply = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+    removeTyping();
+    messages.push({role:'assistant', content:reply});
+    routeReply(reply);
+  } catch(err){
+    removeTyping();
+    appendEl(`<div class="user-bubble" style="align-self:flex-start;background:rgba(255,80,80,.1);border-color:rgba(255,80,80,.25);color:rgba(255,255,255,.7);">Something went wrong — mind trying that again?</div>`);
+    console.error(err);
+  }
+}
+
+// ── ROUTE REPLY ───────────────────────────────────────────────────────────
+function routeReply(reply){
+  // Check for plan
+  const planMatch = reply.match(/<LESSON_PLAN>([\s\S]*?)<\/LESSON_PLAN>/);
+  if(planMatch){
+    let plan;
+    try{ plan = JSON.parse(planMatch[1]); } catch(e){
+      appendEl('<div class="typing" style="color:rgba(255,255,255,.5);font-size:14px;">The plan didn\'t format cleanly — could you ask me to try again?</div>');
+      return;
+    }
+    const intro = reply.replace(/<LESSON_PLAN>[\s\S]*?<\/LESSON_PLAN>/,'').trim();
+    if(intro) appendMentorText(intro);
+    renderPlan(plan);
+    planGenerated = true;
+    updateProgress('done');
+    return;
+  }
+
+  // Check for part divider
+  const pdMatch = reply.match(/<PARTDIVIDER>([\s\S]*?)<\/PARTDIVIDER>/);
+  let afterPd = reply;
+  if(pdMatch){
+    let pd;
+    try{ pd = JSON.parse(pdMatch[1]); } catch(e){ pd = {partNumber:currentPart, partLabel:'', summary:''}; }
+    renderPartDivider(pd);
+    afterPd = reply.replace(/<PARTDIVIDER>[\s\S]*?<\/PARTDIVIDER>/,'').trim();
+    if(typeof pd.partNumber === 'number') currentPart = pd.partNumber + 1;
+    updateProgress(currentPart >= 3 ? 'profile' : currentPart >= 2 ? 'procedure' : 'general');
+  }
+
+  if(!afterPd) return;
+
+  // Extract structured tags
+  const choicesMatch = afterPd.match(/<CHOICES>([\s\S]*?)<\/CHOICES>/);
+  const dropdownMatch = afterPd.match(/<DROPDOWN>([\s\S]*?)<\/DROPDOWN>/);
+  const dualMatch = afterPd.match(/<DUALCHOICES>([\s\S]*?)<\/DUALCHOICES>/);
+  const sbMatch = afterPd.match(/<SENTENCEBUILDER>([\s\S]*?)<\/SENTENCEBUILDER>/);
+
+  const cleanText = afterPd
+    .replace(/<CHOICES>[\s\S]*?<\/CHOICES>/g,'')
+    .replace(/<DROPDOWN>[\s\S]*?<\/DROPDOWN>/g,'')
+    .replace(/<DUALCHOICES>[\s\S]*?<\/DUALCHOICES>/g,'')
+    .replace(/<SENTENCEBUILDER>[\s\S]*?<\/SENTENCEBUILDER>/g,'')
+    .trim();
+
+  if(cleanText) appendMentorText(cleanText);
+
+  if(choicesMatch){
+    try{ renderChoices('', JSON.parse(choicesMatch[1])); } catch(e){ renderTextInput('Type your answer…', v=>submitText(v)); }
+  } else if(dropdownMatch){
+    try{ renderDropdown('', JSON.parse(dropdownMatch[1])); } catch(e){ renderTextInput('Type your answer…', v=>submitText(v)); }
+  } else if(dualMatch){
+    try{ renderDual('', JSON.parse(dualMatch[1])); } catch(e){ renderTextInput('Type your answer…', v=>submitText(v)); }
+  } else if(sbMatch){
+    try{ renderSentenceBuilder('', JSON.parse(sbMatch[1])); } catch(e){ renderTextInput('Type your answer…', v=>submitText(v)); }
+  } else if(!cleanText){
+    renderTextInput('Type your answer…', v=>submitText(v));
+  }
+}
+
+function appendMentorText(text){
+  // Split into comment (before <Q>) and question (after <Q>)
+  const qIdx = text.indexOf('<Q>');
+  const div = document.createElement('div');
+  div.style.marginBottom = '16px';
+  if(qIdx > -1){
+    const comment = text.slice(0, qIdx).replace(/<[^>]+>/g,'').trim();
+    const question = text.slice(qIdx).replace(/<\/?Q>/g,'').replace(/<[^>]+>/g,'').trim();
+    div.innerHTML = (comment ? `<div class="q-comment">${md(comment)}</div>` : '') +
+      (question ? `<div class="q-title">${md(question)}</div>` : '');
+  } else {
+    div.innerHTML = `<div class="q-comment" style="color:rgba(255,255,255,.72)">${md(text.replace(/<[^>]+>/g,''))}</div>`;
+  }
+  screen.appendChild(div);
+  scrollBottom();
+}
+
+function submitText(value, label){
+  recordAnswer(label || 'Answer', value);
+  sendMessage(value, value, null, null);
+}
+
+// ── CHOICES (full-width option rows) ──────────────────────────────────────
+function renderChoices(questionText, choices){
+  const mode = choices.mode === 'multi' ? 'multi' : 'single';
+  const isTile = choices.style === 'tile';
+  const selected = new Set();
+
+  const wrap = document.createElement('div');
+
+  // History
+  if(recentAnswers.length) wrap.innerHTML = historyHtml();
+
+  // Question
+  if(questionText){
+    const qd = document.createElement('div');
+    qd.className = 'q-wrap';
+    qd.innerHTML = `<div class="q-title">${esc(questionText)}</div>`;
+    wrap.appendChild(qd);
+  }
+
+  // Options
+  const opts = document.createElement('div');
+  opts.className = 'options';
+
+  choices.options.forEach(opt=>{
+    const parts = opt.split('|');
+    const label = parts[0].trim();
+    const sub = parts[1] ? parts[1].trim() : '';
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.dataset.val = opt;
+    btn.innerHTML = `<div class="opt-inner"><div>${esc(label)}</div>${sub ? `<div class="opt-sub">${esc(sub)}</div>` : ''}</div><div class="opt-check">✓</div>`;
+
+    btn.addEventListener('click', ()=>{
+      if(opts.dataset.locked) return;
+      const val = label;
+      if(mode === 'single'){
+        opts.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel'));
+        btn.classList.add('sel');
+        opts.dataset.locked = '1';
+        opts.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+        recordAnswer(questionText.replace(/<[^>]+>/g,'').split('?')[0].slice(0,30) || 'Step', val);
+        // Upload triggers
+        if(label === choices.uploadTrigger){
+          fileInput.click(); return;
+        }
+        if(label === choices.uploadTriggerPdf){
+          pdfInput.click(); return;
+        }
+        // Free text trigger
+        if(label === (choices.freeTextTrigger||'')){
+          wrap.appendChild(createTextInputEl(choices.freeTextPlaceholder||'Type here…', v=>submitText(v, questionText)));
+          showFooter('Submit', null, true);
+          return;
+        }
+        sendMessage(val, val, null, null);
+      } else {
+        if(val === 'All'){
+          opts.querySelectorAll('.opt').forEach(b=>{ if(b.dataset.val!=='All') { b.classList.add('sel'); selected.add(b.dataset.val.split('|')[0].trim()); } });
+          btn.classList.add('sel');
+        } else {
+          if(selected.has(val)){ selected.delete(val); btn.classList.remove('sel'); }
+          else{ selected.add(val); btn.classList.add('sel'); }
+        }
+        doneBtn.disabled = selected.size === 0;
+      }
+    });
+    opts.appendChild(btn);
+  });
+  wrap.appendChild(opts);
+
+  // Multi done
+  let doneBtn;
+  if(mode === 'multi'){
+    const row = document.createElement('div');
+    row.className = 'multi-done';
+    doneBtn = document.createElement('button');
+    doneBtn.className = 'done-btn';
+    doneBtn.textContent = 'Done';
+    doneBtn.disabled = true;
+    doneBtn.addEventListener('click', ()=>{
+      if(selected.size === 0) return;
+      opts.dataset.locked = '1';
+      opts.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+      doneBtn.disabled = true;
+      const vals = Array.from(selected).join(', ');
+      recordAnswer(questionText.replace(/<[^>]+>/g,'').split('?')[0].slice(0,30)||'Step', vals);
+      sendMessage(vals, vals, null, null);
+    });
+    const hint = document.createElement('span');
+    hint.className = 'done-hint';
+    hint.textContent = 'Tap all that apply';
+    row.appendChild(doneBtn);
+    row.appendChild(hint);
+    wrap.appendChild(row);
+  }
+
+  screen.appendChild(wrap);
+  scrollBottom();
+  hideFooter();
+}
+
+// ── DROPDOWN ──────────────────────────────────────────────────────────────
+function renderDropdown(questionText, dd){
+  const multi = dd.mode === 'multi';
+  const selected = [];
+  let currentVal = '';
+  const wrap = document.createElement('div');
+  if(recentAnswers.length) wrap.innerHTML = historyHtml();
+  if(questionText){
+    const qd = document.createElement('div');
+    qd.className = 'q-wrap';
+    qd.innerHTML = `<div class="q-title">${esc(questionText)}</div>`;
+    wrap.appendChild(qd);
+  }
+
+  // Custom fully-styled dropdown
+  const container = document.createElement('div');
+  container.className = 'dd-container';
+
+  const trigger = document.createElement('button');
+  trigger.className = 'dd-trigger';
+  trigger.textContent = dd.placeholder || 'Select…';
+  trigger.type = 'button';
+
+  const list = document.createElement('div');
+  list.className = 'dd-list';
+
+  (dd.options||[]).forEach(opt=>{
+    const item = document.createElement('div');
+    item.className = 'dd-item';
+    item.textContent = opt;
+    item.addEventListener('click', e=>{
+      e.stopPropagation();
+      currentVal = opt;
+      trigger.textContent = opt;
+      trigger.classList.add('has-value');
+      trigger.classList.remove('open');
+      list.classList.remove('open');
+      list.querySelectorAll('.dd-item').forEach(i=>i.classList.remove('selected'));
+      item.classList.add('selected');
+      if(!multi){
+        container.dataset.locked='1';
+        trigger.disabled=true;
+        recordAnswer(questionText.replace(/<[^>]+>/g,'').split('?')[0].slice(0,30)||'Step', opt);
+        sendMessage(opt, opt, null, null);
+      }
+    });
+    list.appendChild(item);
+  });
+
+  trigger.addEventListener('click', e=>{
+    e.stopPropagation();
+    if(container.dataset.locked) return;
+    const isOpen = list.classList.contains('open');
+    document.querySelectorAll('.dd-list.open').forEach(l=>{
+      l.classList.remove('open');
+      l.parentElement?.querySelector('.dd-trigger')?.classList.remove('open');
+    });
+    if(!isOpen){ list.classList.add('open'); trigger.classList.add('open'); }
+  });
+  document.addEventListener('click', ()=>{ list.classList.remove('open'); trigger.classList.remove('open'); });
+
+  container.appendChild(trigger);
+  container.appendChild(list);
+  wrap.appendChild(container);
+
+  if(multi){
+    const tagsDiv = document.createElement('div');
+    tagsDiv.className = 'dd-tags';
+    wrap.appendChild(tagsDiv);
+
+    const addBtn = document.createElement('button');
+    addBtn.className = 'dd-use-btn';
+    addBtn.textContent = 'Add to list';
+    addBtn.style.marginTop = '8px';
+    addBtn.addEventListener('click', ()=>{
+      if(!currentVal || selected.includes(currentVal)) return;
+      const v = currentVal;
+      selected.push(v);
+      const tag = document.createElement('div');
+      tag.className = 'dd-tag';
+      tag.innerHTML = `${esc(v)} <button class="dd-tag-rm">×</button>`;
+      tag.querySelector('.dd-tag-rm').onclick = ()=>{ selected.splice(selected.indexOf(v),1); tag.remove(); };
+      tagsDiv.appendChild(tag);
+      trigger.textContent = dd.placeholder || 'Select…';
+      trigger.classList.remove('has-value');
+      currentVal = '';
+    });
+    wrap.appendChild(addBtn);
+
+    const doneBtn = document.createElement('button');
+    doneBtn.className = 'done-btn';
+    doneBtn.textContent = 'Done';
+    doneBtn.style.marginTop = '10px';
+    doneBtn.addEventListener('click', ()=>{
+      if(!selected.length) return;
+      container.dataset.locked='1';
+      trigger.disabled=true; addBtn.disabled=true; doneBtn.disabled=true;
+      const vals = selected.join(', ');
+      recordAnswer(questionText.replace(/<[^>]+>/g,'').split('?')[0].slice(0,30)||'Step', vals);
+      sendMessage(vals, vals, null, null);
+    });
+    wrap.appendChild(doneBtn);
+  }
+
+  screen.appendChild(wrap);
+  scrollBottom();
+  hideFooter();
+}
+
+// ── DUAL CHOICES ──────────────────────────────────────────────────────────
+function renderDual(questionText, dual){
+  const selected = new Set();
+  const wrap = document.createElement('div');
+  if(recentAnswers.length) wrap.innerHTML = historyHtml();
+  if(questionText){
+    const qd = document.createElement('div');
+    qd.className = 'q-wrap';
+    qd.innerHTML = `<div class="q-title">${esc(questionText)}</div>`;
+    wrap.appendChild(qd);
+  }
+  const block = document.createElement('div');
+  block.className = 'dual-block';
+  (dual.groups||[]).forEach(group=>{
+    const gd = document.createElement('div');
+    gd.className = 'dual-group';
+    gd.innerHTML = `<div class="dual-label">${esc(group.label||'')}</div>`;
+    const opts = document.createElement('div');
+    opts.className = 'options';
+    (group.options||[]).forEach(opt=>{
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.dataset.val = opt;
+      btn.innerHTML = `<div>${esc(opt)}</div><div class="opt-check">✓</div>`;
+      btn.addEventListener('click', ()=>{
+        if(block.dataset.locked) return;
+        if(selected.has(opt)){ selected.delete(opt); btn.classList.remove('sel'); }
+        else{ selected.add(opt); btn.classList.add('sel'); }
+        doneBtn.disabled = selected.size === 0;
+      });
+      opts.appendChild(btn);
+    });
+    gd.appendChild(opts);
+    block.appendChild(gd);
+  });
+  wrap.appendChild(block);
+
+  const row = document.createElement('div');
+  row.className = 'multi-done';
+  const doneBtn = document.createElement('button');
+  doneBtn.className = 'done-btn';
+  doneBtn.textContent = 'Done';
+  doneBtn.disabled = true;
+  doneBtn.addEventListener('click', ()=>{
+    if(!selected.size) return;
+    block.dataset.locked='1';
+    block.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+    doneBtn.disabled=true;
+    const vals = Array.from(selected).join(', ');
+    recordAnswer('Aims', vals);
+    sendMessage(vals, vals, null, null);
+  });
+  const hint = document.createElement('span');
+  hint.className = 'done-hint';
+  hint.textContent = 'Pick from either or both lists';
+  row.appendChild(doneBtn); row.appendChild(hint);
+  wrap.appendChild(row);
+  screen.appendChild(wrap);
+  scrollBottom();
+  hideFooter();
+}
+
+// ── SENTENCE BUILDER ──────────────────────────────────────────────────────
+function renderSentenceBuilder(questionText, sb){
+  const wrap = document.createElement('div');
+  if(recentAnswers.length) wrap.innerHTML = historyHtml();
+  if(questionText){
+    const qd = document.createElement('div');
+    qd.className = 'q-wrap';
+    qd.innerHTML = `<div class="q-title">${esc(questionText)}</div>`;
+    wrap.appendChild(qd);
+  }
+
+  const block = document.createElement('div');
+  block.className = 'sb-block';
+  const rows = document.createElement('div');
+  rows.className = 'sb-row-list';
+
+  function addSbRow(){
+    const row = document.createElement('div');
+    row.className = 'sb-row';
+    const parts = (sb.template||'They covered ___ in the context of ___').split('___');
+    const slots = sb.slots || [];
+    parts.forEach((part, i)=>{
+      if(part) row.appendChild(Object.assign(document.createTextNode(part), {}));
+      if(i < slots.length){
+        const slotDef = slots[i];
+        const sel = document.createElement('select');
+        sel.className = 'sb-slot';
+        const ph = document.createElement('option'); ph.value=''; ph.textContent='Select…'; sel.appendChild(ph);
+        (slotDef.options||VOCAB).forEach(o=>{
+          const op=document.createElement('option'); op.value=o; op.textContent=o; sel.appendChild(op);
+        });
+        row.appendChild(sel);
+      }
+    });
+    rows.appendChild(row);
+  }
+  addSbRow();
+  block.appendChild(rows);
+
+  if(sb.allowMultiple){
+    const addBtn = document.createElement('button');
+    addBtn.className = 'sb-add';
+    addBtn.textContent = '+ Add another';
+    addBtn.onclick = ()=>addSbRow();
+    block.appendChild(addBtn);
+  }
+
+  wrap.appendChild(block);
+
+  const doneBtn = document.createElement('button');
+  doneBtn.className = 'done-btn';
+  doneBtn.textContent = 'Done';
+  doneBtn.style.marginTop = '10px';
+  doneBtn.addEventListener('click', ()=>{
+    const sentences = [];
+    rows.querySelectorAll('.sb-row').forEach(row=>{
+      const parts = (sb.template||'They covered ___ in the context of ___').split('___');
+      const sels = row.querySelectorAll('.sb-slot');
+      let s = parts[0];
+      sels.forEach((sl,i)=>{ s += (sl.value||'[not selected]') + (parts[i+1]||''); });
+      if(sels.length && sels[0].value) sentences.push(s.trim());
+    });
+    if(!sentences.length) return;
+    const val = sentences.join(' / ');
+    recordAnswer('Timetable', val.slice(0,40));
+    sendMessage(val, val, null, null);
+  });
+  wrap.appendChild(doneBtn);
+  screen.appendChild(wrap);
+  scrollBottom();
+  hideFooter();
+}
+
+// ── TEXT INPUT ────────────────────────────────────────────────────────────
+function createTextInputEl(placeholder, onSubmit){
+  const ta = document.createElement('textarea');
+  ta.className = 'text-area';
+  ta.placeholder = placeholder;
+  ta.rows = 2;
+  ta.addEventListener('input', ()=>{ contBtn.disabled = !ta.value.trim(); });
+  contBtn._cb = ()=>{
+    const v = ta.value.trim();
+    if(!v) return;
+    ta.disabled = true;
+    hideFooter();
+    onSubmit(v);
+  };
+  return ta;
+}
+function renderTextInput(placeholder, onSubmit){
+  const ta = createTextInputEl(placeholder, onSubmit);
+  screen.appendChild(ta);
+  ta.focus();
+  showFooter('Submit', ()=>{
+    const v = ta.value.trim();
+    if(!v) return;
+    ta.disabled=true; hideFooter(); onSubmit(v);
+  }, true);
+  scrollBottom();
+}
+
+// ── PART DIVIDER ──────────────────────────────────────────────────────────
+function renderPartDivider(pd){
+  const d = document.createElement('div');
+  d.className = 'part-div-wrap';
+  d.innerHTML = `
+    <div class="part-div-line"><div class="part-div-badge">Part ${pd.partNumber} of 3 — ${esc(pd.partLabel)} Complete</div></div>
+    ${pd.summary ? `<div class="part-div-summary">${md(pd.summary)}</div>` : ''}`;
+  screen.appendChild(d);
+  scrollBottom();
+}
+
+// ── PLAN ──────────────────────────────────────────────────────────────────
+function renderPlan(plan){
+  const mats = (plan.materials||[]).map(m=>`<li>${esc(m)}</li>`).join('');
+  const probs = (plan.anticipatedProblems||[]).map(p=>`<li><strong>${esc(p.problem)}</strong><br>${esc(p.solution)}</li>`).join('');
+  const proc = (plan.procedure||[]).map(s=>`
+    <div class="stage-row">
+      <div class="stage-time">${esc(s.time)}</div>
+      <div>
+        <div class="stage-name">${esc(s.stage)}</div>
+        <div class="stage-aim">${esc(s.aim)}</div>
+        <ul class="stage-steps">${(s.steps||[]).map(st=>`<li>${esc(st)}</li>`).join('')}</ul>
+      </div>
+    </div>`).join('');
+  const id = 'p'+Date.now();
+  const card = document.createElement('div');
+  card.className = 'plan-card';
+  card.innerHTML = `
+    <div class="plan-head">
+      <div class="plan-head-title">${esc(plan.title||'')}</div>
+      <div class="plan-head-meta">${esc(plan.mainAim||'')}</div>
+    </div>
+    <div class="plan-sec"><div class="plan-sec-lbl">Description</div><div class="plan-sec-body">${esc(plan.description||'')}</div></div>
+    <div class="plan-sec"><div class="plan-sec-lbl">Materials</div><div class="plan-sec-body"><ul>${mats}</ul></div></div>
+    <div class="plan-sec"><div class="plan-sec-lbl">Subsidiary Aims</div><div class="plan-sec-body">${esc(plan.subsidiaryAims||'')}</div></div>
+    <div class="plan-sec"><div class="plan-sec-lbl">Class Profile</div><div class="plan-sec-body">${esc((plan.background||{}).classProfile||'')}</div></div>
+    <div class="plan-sec"><div class="plan-sec-lbl">Timetable Fit</div><div class="plan-sec-body">${esc((plan.background||{}).timetableFit||'')}</div></div>
+    <div class="plan-sec"><div class="plan-sec-lbl">Anticipated Problems</div><div class="plan-sec-body"><ul>${probs}</ul></div></div>
+    <div class="plan-sec"><div class="plan-sec-lbl">Procedure</div><div class="plan-sec-body">${proc}</div></div>
+    <div class="plan-actions">
+      <div class="dl-wrap">
+        <div class="fmt-menu" id="fmt-${id}">
+          <button data-fmt="pdf">📄 Download as PDF</button>
+          <button data-fmt="docx">📝 Download as Word</button>
+        </div>
+        <button class="plan-dl" id="dl-${id}">Download</button>
+      </div>
+      <button class="plan-rev" id="rev-${id}">Ask for revision</button>
+    </div>`;
+  screen.appendChild(card);
+  scrollBottom();
+  hideFooter();
+
+  const dlBtn = card.querySelector(`#dl-${id}`);
+  const fmtMenu = card.querySelector(`#fmt-${id}`);
+  dlBtn.onclick = e=>{ e.stopPropagation(); fmtMenu.classList.toggle('open'); };
+  document.addEventListener('click', ()=>fmtMenu.classList.remove('open'));
+  card.querySelectorAll('.fmt-menu button').forEach(btn=>{
+    btn.onclick = ()=>{ fmtMenu.classList.remove('open'); downloadPlan(plan, btn.dataset.fmt, dlBtn); };
+  });
+  card.querySelector(`#rev-${id}`).onclick = ()=>{
+    renderTextInput('What would you like to change?', v=>submitText(v,'Revision'));
+  };
+}
+
+// ── DOWNLOAD ─────────────────────────────────────────────────────────────
+async function downloadPlan(plan, format, btn){
+  if(!EXPORT_API){
+    let out = plan.title+'\n\n'+plan.description+'\n\n';
+    (plan.procedure||[]).forEach(s=>{ out+=s.stage+' ('+s.time+')\n'+(s.steps||[]).map(st=>'  • '+st).join('\n')+'\n\n'; });
+    const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([out],{type:'text/plain'}));
+    a.download=(plan.title||'plan').replace(/[^a-z0-9]+/gi,'_')+'.txt'; a.click(); return;
+  }
+  const orig = btn.textContent; btn.textContent='…'; btn.disabled=true;
+  try{
+    const r = await fetch(EXPORT_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+KEY},body:JSON.stringify({plan,format})});
+    if(!r.ok) throw new Error('Export failed');
+    const blob = await r.blob();
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download=(plan.title||'plan').replace(/[^a-z0-9]+/gi,'_')+'.'+format; a.click();
+  } catch(e){ alert('Download failed: '+e.message); }
+  finally{ btn.textContent=orig; btn.disabled=false; }
+}
+
+// ── UPLOAD FLOW ───────────────────────────────────────────────────────────
+function startUpload(){
+  pendingMultiUpload = [];
+  renderUploadScreen();
+}
+function renderUploadScreen(){
+  screen.innerHTML = '';
+  const d = document.createElement('div');
+  d.innerHTML = `
+    <div class="q-wrap">
+      <div class="q-title">Upload your material</div>
+      <div class="q-sub">Add the page(s) you want to teach from — photos or PDFs.</div>
+    </div>
+    <div class="upload-thumbs" id="thumbs">
+      ${pendingMultiUpload.map((item,i)=>item.kind==='image'
+        ?`<div class="upload-thumb"><img src="${item.dataUrl}" alt=""><button class="rm" data-i="${i}">×</button></div>`
+        :`<div class="upload-thumb pdf"><span>📄</span><button class="rm" data-i="${i}">×</button></div>`).join('')}
+    </div>
+    <div class="upload-zone" id="addZone">
+      <div class="upload-zone-icon">+</div>
+      <div class="upload-zone-text">Tap to add a page</div>
+      <div class="upload-zone-sub">Photo or PDF</div>
+    </div>`;
+  screen.appendChild(d);
+  d.querySelectorAll('.rm').forEach(btn=>{
+    btn.onclick=()=>{ pendingMultiUpload.splice(+btn.dataset.i,1); renderUploadScreen(); };
+  });
+  document.getElementById('addZone').onclick = ()=>multiInput.click();
+  const n = pendingMultiUpload.length;
+  showFooter(n===0?'Add a page first':`Read ${n} page${n>1?'s':''} and start`, ()=>submitUpload(), n===0, true, ()=>renderWelcome());
+  scrollBottom();
+}
+async function submitUpload(){
+  if(!pendingMultiUpload.length) return;
+  const blocks = pendingMultiUpload.map(item=>
+    item.kind==='pdf'
+      ? {type:'document',source:{type:'base64',media_type:'application/pdf',data:item.base64Data}}
+      : {type:'image',source:{type:'base64',media_type:item.mediaType,data:item.base64Data}}
+  );
+  blocks.push({type:'text',text:'Here is the material I want to teach from. Please read it and fill in as much of the lesson plan as you can — topic, level, aims, methodology, and stage content — then show me a summary to confirm before we move to the student profile.'});
+  screen.innerHTML = '';
+  pendingMultiUpload = [];
+  await sendMessage(blocks, 'Uploaded teaching material', null, null);
+}
+
+// ── FILE HANDLERS ─────────────────────────────────────────────────────────
+multiInput.addEventListener('change', async e=>{
+  const f = e.target.files[0]; if(!f) return;
+  const base64Data = await b64(f);
+  if(f.type==='application/pdf') pendingMultiUpload.push({kind:'pdf',base64Data,fileName:f.name});
+  else pendingMultiUpload.push({kind:'image',mediaType:f.type,base64Data,dataUrl:'data:'+f.type+';base64,'+base64Data});
+  multiInput.value='';
+  renderUploadScreen();
+});
+
+// ── RESET ─────────────────────────────────────────────────────────────────
+newBtn.onclick = ()=>{
+  messages=[];currentPart=1;planGenerated=false;
+  recentAnswers=[];pendingImage=null;pendingPdf=null;pendingMultiUpload=[];
+  updateProgress('general');
+  renderWelcome();
+};
+
+// ── INIT ─────────────────────────────────────────────────────────────────
+updateProgress('general');
+renderWelcome();
+</script>
+
+</body></html>
